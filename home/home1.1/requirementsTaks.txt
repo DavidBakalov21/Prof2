@@ -1,0 +1,6 @@
+Finding biggest negative:
+    Programm should sort values correctly
+    Programm should handle garbage values correctly(like letters)
+    Programm should print biggest negative value to the console
+    Programm should receive list from user by console input
+    Programm should delete values that are non negative characters

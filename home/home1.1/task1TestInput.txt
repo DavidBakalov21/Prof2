@@ -1,0 +1,5 @@
+-.5,-6.9,-1.2,- 0.1,9m,-6m,i
+
+
+
+In order to run the script you should type "java task1"

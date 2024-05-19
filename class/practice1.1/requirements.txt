@@ -1,0 +1,15 @@
+Finding biggest negative:
+    Programm should sort values correctly
+    Programm should handle garbage values correctly
+    Programm should print output to the console
+    User should be able to inpu list with console
+    Programm should delete values that are non negative characters
+    User should be able to enter lists in loop, without need to relaunch programm
+
+Finding square roots:
+    Programm should handle negative values correctly
+    Programm should print output to the console
+    Programm should work with non negative values correctly
+    User should be able to enter values and get the result.
+    User should be able to solve linear equation by putting a=0 and so on.
+

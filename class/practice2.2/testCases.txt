@@ -1,0 +1,6 @@
+Test case 1
+Precondition: none
+Test Steps:
+1. User starts program for the first. .\adv.exe Vitalik
+Expected result:  "Welcome, Vitalik!".
+

@@ -1,0 +1,2 @@
+./testerjava.ps1
+./tester.ps1
