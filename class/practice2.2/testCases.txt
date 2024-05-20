@@ -1,6 +1,35 @@
 Test case 1
 Precondition: none
 Test Steps:
-1. User starts program for the first. .\adv.exe Vitalik
-Expected result:  "Welcome, Vitalik!".
+1. User starts program without arguments .\picture.exe
+Expected result:  "Error:Please provide all arguments".
+2. User starts program without arguments .\picture.exe image.txt
+Expected result:  "Error:Please provide all arguments".
+
+Test case 2
+Precondition: image.txt contains entered color
+Test Steps:
+1. User starts program without arguments .\picture.exe image.txt 255,97,105
+Expected result:  "Image was changed successfully".
+
+
+Test case 3
+Precondition: Color was entered in wrong format
+Test Steps:
+1. User starts program without arguments .\picture.exe image.txt 255bf,974cgb
+Expected result:  "Please, enter existing color for example 255,97,105".
+2. User starts program without arguments .\picture.exe image.txt 255,974,906
+Expected result:  "Please, enter existing color for example 255,97,105".
+
+Test case 4
+Precondition: Image.txt doesn't contain 16x16 pixels
+Test Steps:
+1. User starts program without arguments .\picture.exe imageBadSize.txt 255,97,105
+Expected result:  "Please, provide 16x16 image".
+
+Test case 5
+Precondition: Image.txt contains pixels with impossible colors
+Test Steps:
+1. User starts program without arguments .\picture.exe imageBadColor.txt 255,97,105
+Expected result:  "Please, provide image with valid colors".
 
