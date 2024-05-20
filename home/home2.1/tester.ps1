@@ -1,5 +1,10 @@
 $exePath = ".\adv.exe"
 
+# I hope you can do it better with helper function that takes input params string and expected output
+# inside the function it will perform necessary checks and will report the case of mismatch.
+# at the moment you have a big amount of copypase instead of having list of function calls like
+# some_func "Vitalik" "Welcome, Vitalik!"
+
 #First test case
 Write-Output "FIRST TEST CASE"
 $args = "Vitalik"
@@ -19,6 +24,10 @@ if ($output -match "Hello again\(x3\),Vitalik") {
 }else{
     Write-Output $output
 }
+
+# you should have some function to reset environment and set preconditions
+# otherwise the second test case results may depend on the previous runs.
+# In other word your test case should be isolated.
 
 #Second test case
 Write-Output "SECOND TEST CASE"

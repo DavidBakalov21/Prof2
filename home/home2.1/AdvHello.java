@@ -3,8 +3,11 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+// As for c++ version we should have encapsulation for work with database file
+// Also constants for command name should be defined as constant variables not just hardcoded.
 class Functionality {
     String argument2 = "";
+    // we know that this filename is constant so let's define it accordingly
     String file = "database.txt";
     String WordToFind;
     String lineFound;

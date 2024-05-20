@@ -1,3 +1,5 @@
+# something wrong with copypasting all the file just to place everywhere java word instead of adding it here
+# or even better passing as the input parameter of script
 $exePath = "AdvHello"
 
 #First test case

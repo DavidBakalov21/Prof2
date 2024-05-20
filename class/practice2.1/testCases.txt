@@ -1,3 +1,6 @@
+// Looks good in general. While we may need more cases for error handling situations
+// Also it would be great to have some brief names for each test case to describe the general scenario.
+
 Test case 1
 Precondition: none
 Test Steps:
