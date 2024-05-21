@@ -1,166 +1,104 @@
-$exePath = "AdvHello"
 
+function Delete-File { 
+        $filePath = "database.txt"
+  if (Test-Path $filePath) {
+        Remove-Item -Path $filePath -Force
+        Write-Output "File deleted: $filePath"
+    } else {
+        Write-Output "File does not exist: $filePath"
+    }
+}
+
+function Test-Output {
+    param (
+        [string]$expectedOutput
+    )
+    $exePath = "AdvHello"
+    $output = java $exePath  $testCase.args
+    if ($output -match $expectedOutput) {
+        Write-Output "The operation was successful"
+    } else {
+        Write-Output "Test failed"
+        Write-Output "Actual:   '$output'"
+    }
+}
+Delete-File
 #First test case
-Write-Output "FIRST TEST CASE"
-$args = "Vitalik"
-$output = java $exePath $args
-if ($output -match "Welcome Vitalik") {
-    Write-Output "The operation was successful."
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),Vitalik") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),Vitalik") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Normal usage"
+$testCases1 = @(
+@{args = @("Vitalik"); expected = "Welcome Vitalik"},
+@{args = @("Vitalik"); expected = "Hello again\(x2\),Vitalik"},
+@{args = @("Vitalik"); expected = "Hello again\(x3\),Vitalik"}
+)
+foreach ($testCase in $testCases1) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
 
+Delete-File
 #Second test case
-Write-Output "SECOND TEST CASE"
-$args = "David"
-$output = java $exePath $args
-if ($output -match "Welcome David") {
-    Write-Output "The operation was successful."
+Write-Output "Normal usage then delete user"
+$testCases2 = @(
+@{args = @("David"); expected = "Welcome David"},
+@{args = @("David"); expected = "Hello again\(x2\),David"},
+@{args = @("David", "delete"); expected = "All data about this user was cleared"}
+)
+foreach ($testCase in $testCases2) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),David") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$args = "David", "delete"
-$output = java $exePath $args
-if ($output -match "All data about this user was cleared") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
+Delete-File
 #Third test case
-Write-Output "THIRD TEST CASE"
-$args = "David"
-$output = java $exePath $args
-if ($output -match "Welcome David") {
-    Write-Output "The operation was successful."
+Write-Output "Usage after deletion"
+$testCases3 = @(
+@{args = @("David"); expected = "Welcome David"},
+@{args = @("David", "delete"); expected = "All data about this user was cleared"},
+@{args = @("David"); expected = "Welcome David"},
+@{args = @("David"); expected = "Hello again\(x2\),David"},
+@{args = @("David"); expected = "Hello again\(x3\),David"}
+)
+foreach ($testCase in $testCases3) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),David") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),David") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
+Delete-File
 #Fourth test case
-Write-Output "FOURTH TEST CASE"
-$args = "VitalikII"
-$output = java $exePath $args
-if ($output -match "Welcome VitalikII") {
-    Write-Output "The operation was successful."
+Write-Output "Few users added then bread"
+$testCases4 = @(
+@{args = @("VitalikII"); expected = "Welcome VitalikII"},
+@{args = @("VitalikII"); expected = "Hello again\(x2\),VitalikII"},
+@{args = @("VitalikII"); expected = "Hello again\(x3\),VitalikII"},
+@{args = @("Sasha"); expected = "Welcome Sasha"},
+@{args = @("Sasha"); expected = "Hello again\(x2\),Sasha"},
+@{args = @("Sasha"); expected = "Hello again\(x3\),Sasha"},
+@{args = @("bread"); expected = "all data was cleared"}
+)
+foreach ($testCase in $testCases4) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),VitalikII") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),VitalikII") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$args = "Sasha"
-$output = java $exePath $args
-if ($output -match "Welcome Sasha") {
-    Write-Output "The operation was successful."
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),Sasha") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),Sasha") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$args = "bread"
-$output = java $exePath $args
-if ($output -match "all data was cleared") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
+Delete-File
 #Fifth test case
-Write-Output "FIFTH TEST CASE"
-$args = "VitalikII"
-$output = java $exePath $args
-if ($output -match "Welcome VitalikII") {
-    Write-Output "The operation was successful."
+Write-Output "Usage after bread usage"
+$testCases5 = @(
+@{args = @("VitalikII"); expected = "Welcome VitalikII"},
+@{args = @("Sasha"); expected = "Welcome Sasha"}
+@{args = @("bread"); expected = "all data was cleared"},    
+@{args = @("VitalikII"); expected = "Welcome VitalikII"},
+@{args = @("VitalikII"); expected = "Hello again\(x2\),VitalikII"},
+@{args = @("VitalikII"); expected = "Hello again\(x3\),VitalikII"},
+@{args = @("Sasha"); expected = "Welcome Sasha"},
+@{args = @("Sasha"); expected = "Hello again\(x2\),Sasha"},
+@{args = @("Sasha"); expected = "Hello again\(x3\),Sasha"}
+)
+foreach ($testCase in $testCases5) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),VitalikII") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),VitalikII") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$args = "Sasha"
-$output = java $exePath $args
-if ($output -match "Welcome Sasha") {
-    Write-Output "The operation was successful."
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),Sasha") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath $args
-if ($output -match "Hello again\(x3\),Sasha") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
-
+Delete-File
 #Sixth test case
-Write-Output "SIXTH TEST CASE"
-$args = "Vitalik", "ddfv","sdsdvs"
-$output = java $exePath $args
-if ($output -match "Welcome Vitalik") {
-    Write-Output "The operation was successful."
-}
-$args = "Vitalik", "ddfv","sdsdvs", "gdyjrth"
-$output = java $exePath $args
-if ($output -match "Hello again\(x2\),Vitalik") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-$output = java $exePath 
-if ($output -match "Please provide a word to find.") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Nonsense arguements"
+$testCases6 = @(
+@{args = @("Vitalik", "ddfv","sdsdvs"); expected = "Welcome Vitalik"},
+@{args = @("Vitalik", "ddfv","sdsdvs", "gdyjrth"); expected = "Hello again\(x2\),Vitalik"},
+@{args = @(""); expected = "Please provide a word to find."}
+)
+foreach ($testCase in $testCases6) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
 

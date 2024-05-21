@@ -1,66 +1,71 @@
-$exePath = ".\main.exe"
+function Delete-File { 
+        $filePath = "database.txt"
+  if (Test-Path $filePath) {
+        Remove-Item -Path $filePath -Force
+        Write-Output "File deleted: $filePath"
+    } else {
+        Write-Output "File does not exist: $filePath"
+    }
+}
 
+function Test-Output {
+    param (
+        [string]$expectedOutput
+    )
+    $exePath = ".\main.exe"
+    $output = & $exePath  $testCase.args
+    if ($output -match $expectedOutput) {
+        Write-Output "The operation was successful"
+    } else {
+        Write-Output "Test failed"
+        Write-Output "Actual:   '$output'"
+    }
+}
+
+Delete-File
 #First test case
-Write-Output "FIRST TEST CASE"
-$args = "image.txt"
-$output = & $exePath
-if ($output -match "Error:Please provide all arguments") {
-    Write-Output "The operation was successful."
+Write-Output "Bad arguments"
+$testCases1 = @(
+@{args = @("image.txt"); expected = "Error:Please provide all arguments"},
+@{args = @(); expected = "Error:Please provide all arguments"}
+)
+foreach ($testCase in $testCases1) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$output = & $exePath $args
-if ($output -match "Error:Please provide all arguments") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
-
 
 #Second test case
-Write-Output "SECOND TEST CASE"
-$args ="image.txt", "255,97,105"
-$output = & $exePath $args
-if ($output -match "Image was changed successfully") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Normal usage"
+$testCases2 = @(
+@{args = @("image.txt", "255,97,105"); expected = "Image was changed successfully"}
+)
+foreach ($testCase in $testCases2) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-
 
 #Third test case
-Write-Output "THIRD TEST CASE"
-$args ="image.txt", "255bf,974cgb"
-$output = & $exePath $args
-if ($output -match "Please, enter existing color for example 255,97,105") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Bad colors"
+$testCases3 = @(
+@{args = @("image.txt", "255bf,974cgb"); expected = "Please, enter existing color for example 255,97,105"},
+@{args = @("image.txt", "255,974,105"); expected = "Please, enter existing color for example 255,97,105"}
+)
+foreach ($testCase in $testCases3) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-$args ="image.txt", "255,974,105"
-$output = & $exePath $args
-if ($output -match "Please, enter existing color for example 255,97,105") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
-}
-
 
 #Fourth test case
-Write-Output "FOURTH TEST CASE"
-$args ="imageBadSize.txt", "255,97,105"
-$output = & $exePath $args
-if ($output -match "Please, provide 16x16 image") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Wrong size picture"
+$testCases4 = @(
+@{args = @("imageBadSize.txt", "255,97,105"); expected = "Please, provide 16x16 image"}
+)
+foreach ($testCase in $testCases4) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
 
 #Fifth test case
-Write-Output "FIFTH TEST CASE"
-$args ="imageBadColor.txt", "255,97,105"
-$output = & $exePath $args
-if ($output -match "Please, provide image with valid colors") {
-    Write-Output "The operation was successful."
-}else{
-    Write-Output $output
+Write-Output "Wrong colors picture"
+$testCases5 = @(
+@{args = @("imageBadColor.txt", "255,97,105"); expected = "Please, provide image with valid colors"}
+)
+foreach ($testCase in $testCases5) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
