@@ -1,4 +1,4 @@
-Test case 1
+Test case "Normal usage"
 Precondition: none
 Test Steps:
 1. User starts program for the first time with "Vitalik" as a name arguement. .\adv.exe Vitalik
@@ -15,7 +15,7 @@ Expected result: "Hello again(x3), Vitalik"
 Expected result: application is closed automatically.
 
 
-Test case 2
+Test case "Normal usage then delete user"
 Precondition: application is open for the first time.
 Test Steps:
 1. User starts program for the first time David" as a name arguement. .\adv.exe David
@@ -32,24 +32,28 @@ Expected result: statistics for "David" should be deleted, and print "All data a
 Expected result: application is closed automatically.
 
 
-Test case 3
-Precondition: application is open after passing "delete" as a second argument
+Test case "Usage after deletion"
+Precondition: adding users after application was opened with "delete" as a second argument
 Test Steps:
 1. User starts program David" as a name arguement. .\adv.exe David
 Expected result:  "Welcome, David!".
-2. close application
-Expected result: application is closed automatically.
-3. User starts program for the second time with "David" as a name arguement. .\adv.exe David
-Expected result: "Hello again(x2), David"
+2. User starts program for the second time with "David" as a name arguement and "delete" as a second argument. .\adv.exe David delete
+Expected result: statistics for "David" should be deleted, and print "All data about this user was cleared"
+3. User starts program David" as a name arguement. .\adv.exe David
+Expected result:  "Welcome, David!".
 4. close application
 Expected result: application is closed automatically.
 5. User starts program for the second time with "David" as a name arguement. .\adv.exe David
-Expected result: "Hello again(x3), David"
+Expected result: "Hello again(x2), David"
 6. close application
+Expected result: application is closed automatically.
+7. User starts program for the second time with "David" as a name arguement. .\adv.exe David
+Expected result: "Hello again(x3), David"
+8. close application
 Expected result: application is closed automatically.
 
 
-Test case 4
+Test case "Few users added then bread"
 Precondition: application is open for the first time.
 Test Steps:
 1. User starts program with "VitalikII" as a name arguement. .\adv.exe VitalikII
@@ -80,33 +84,39 @@ Expected result: all history should be completely cleared, program should print 
 Expected result: application is closed automatically.
 
 
-Test case 5
-Precondition: application is open after passing "bread" as a name argument
+Test case "Usage after bread usage"
+Precondition: adding users after application was opened with "bread" as a first argument
 Test Steps:
 1. User starts program with "VitalikII" as a name arguement. .\adv.exe VitalikII
 Expected result:  "Welcome, VitalikII!".
-2. close application
-Expected result: application is closed automatically.
-3. User starts program for the second time with "VitalikII" as a name arguement. .\adv.exe VitalikII
-Expected result: "Hello again(x2), VitalikII"
-4. close application
-Expected result: application is closed automatically.
-5. User starts program for the second time with "VitalikII" as a name arguement. .\adv.exe VitalikII
-Expected result: "Hello again(x3), VitalikII"
-6. User starts program with "Sasha" as a name arguement.
+2. User starts program with "Sasha" as a name arguement. .\adv.exe Sasha
 Expected result:  "Welcome, Sasha!".
+3. User starts program for the second time with "bread" as a name arguement.
+Expected result: all history should be completely cleared, program should print : "all data was cleared" .\adv.exe bread
+4. User starts program with "VitalikII" as a name arguement. .\adv.exe VitalikII
+Expected result:  "Welcome, VitalikII!".
+5. close application
+Expected result: application is closed automatically.
+6. User starts program for the second time with "VitalikII" as a name arguement. .\adv.exe VitalikII
+Expected result: "Hello again(x2), VitalikII"
 7. close application
 Expected result: application is closed automatically.
-8. User starts program for the second time with "Sasha" as a name arguement. .\adv.exe Sasha
-Expected result: "Hello again(x2), Sasha"
-9. close application
+8. User starts program for the second time with "VitalikII" as a name arguement. .\adv.exe VitalikII
+Expected result: "Hello again(x3), VitalikII"
+9. User starts program with "Sasha" as a name arguement.
+Expected result:  "Welcome, Sasha!".
+10. close application
 Expected result: application is closed automatically.
-10. User starts program for the second time with "Sasha" as a name arguement. .\adv.exe Sasha
+11. User starts program for the second time with "Sasha" as a name arguement. .\adv.exe Sasha
+Expected result: "Hello again(x2), Sasha"
+12. close application
+Expected result: application is closed automatically.
+13. User starts program for the second time with "Sasha" as a name arguement. .\adv.exe Sasha
 Expected result: "Hello again(x3), Sasha"
-11. close application
+14. close application
 Expected result: application is closed automatically.
 
-Test case 6
+Test case "Nonsense arguements"
 Precondition: none
 Test Steps:
 1. User starts program with "Vitalik" as a name arguement and "ddfv","sdsdvs" as an additional arguements. .\adv.exe Vitalik "ddfv","sdsdvs"
