@@ -1,12 +1,7 @@
 
 function Delete-File { 
         $filePath = "database.txt"
-  if (Test-Path $filePath) {
         Remove-Item -Path $filePath -Force
-        Write-Output "File deleted: $filePath"
-    } else {
-        Write-Output "File does not exist: $filePath"
-    }
 }
 
 function Test-Output {

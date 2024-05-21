@@ -24,12 +24,13 @@ function Create-Image{
 "@
 Set-Content -Path $filePath -Value $content -NoNewline
 }
+
 function Test-Output {
     param (
         [string]$expectedOutput
     )
-    $exePath = ".\main.exe"
-    $output = & $exePath  $testCase.args
+    $exePath = "imageChanger"
+    $output = java $exePath  $testCase.args
     if ($output -match $expectedOutput) {
         Write-Output "The operation was successful"
     } else {
@@ -38,8 +39,7 @@ function Test-Output {
     }
 }
 
-Delete-File
-Create-Image
+
 #First test case
 Write-Output "Bad arguments"
 $testCases1 = @(
@@ -70,7 +70,8 @@ $testCases3 = @(
 foreach ($testCase in $testCases3) {
     Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
-
+Delete-File
+Create-Image
 #Fourth test case
 Write-Output "Wrong size picture"
 $testCases4 = @(
@@ -88,3 +89,24 @@ $testCases5 = @(
 foreach ($testCase in $testCases5) {
     Test-Output -args $testCase.args -expectedOutput $testCase.expected
 }
+
+#Sixth test case
+Write-Output "Normal work with hated color"
+$testCases6 = @(
+@{args = @("image.txt", "255,97,105", "86,151,249"); expected = "Image was changed successfully"}
+)
+foreach ($testCase in $testCases6) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
+}
+Delete-File
+Create-Image
+#Seventh test case
+Write-Output "Hated color isn't correct"
+$testCases7 = @(
+@{args = @("image.txt", "255,97,105", "86xsfd,151s,2490"); expected = "Image was changed successfully"}
+)
+foreach ($testCase in $testCases7) {
+    Test-Output -args $testCase.args -expectedOutput $testCase.expected
+}
+Delete-File
+Create-Image
