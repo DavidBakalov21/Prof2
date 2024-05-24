@@ -1,110 +1,94 @@
 #include <string>
-#include <vector>
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <map>
 
-std::vector<std::string> splitString(const std::string& str, char delimiter) {
-    std::vector<std::string> tokens;
-    std::stringstream ss(str);
-    std::string token;
-
-    while (std::getline(ss, token, delimiter)) {
-        tokens.push_back(token);
-    }
-    return tokens;
+namespace {
+    const std::string bread = "bread";
+    const std::string deleteCommand = "delete";
 }
+class Database {
+private:
+    std::map<std::string, int> statsData;
+    std::string database;
+    void LoadData() {
+        std::ifstream file(database);
+        std::string name;
+        int count;
+        while (file >> name >> count) {
+            statsData [name] = count;
+        }
+        file.close();
+    }
+    void SaveData() {
+        std::ofstream file(database, std::ios::trunc);
+        for (const auto& [name, count] : statsData ) {
+            file << name << " " << count << std::endl;
+        }
+        file.close();
+    }
+ std::string deleteUser(const std::string& nameToFind) {
+    auto name = statsData.find(nameToFind);
+    if (name != statsData.end()) {
+        statsData.erase(name);
+    }
+    SaveData();
+    return "All data about this user was cleared";
+}
+
+    std::string UserIncrement(const std::string& nameToFind) {
+        std::string returnValue;
+        if (statsData.find(nameToFind)!=statsData.end())
+        {
+            statsData [nameToFind]++;
+            returnValue="Hello again(x" + std::to_string(statsData[nameToFind]) + ")," + nameToFind;
+        }else{
+            statsData [nameToFind]++;
+            returnValue="Welcome " +nameToFind;
+        }
+        SaveData();
+        return returnValue;
+    }
+public:
+    Database(const std::string& filePath) : database(filePath) {
+         LoadData();
+    }
+    void clearDatabase() {
+        statsData.clear();
+        SaveData();
+    }
+    std::string PerformChanges(const std::string& nameToFind, const std::string& additionalCommand) {
+        if (statsData.find(nameToFind)==statsData.end()) {
+            if (additionalCommand == deleteCommand) {
+               return "There is no such user ";
+            }
+            return UserIncrement(nameToFind);
+        }
+        else {
+            if (additionalCommand == deleteCommand) {
+                return deleteUser(nameToFind);
+            }
+            return UserIncrement(nameToFind);
+        }
+    }
+};
 int main(int argc, char* argv[])
 {
-    std::string argument2;
-        
-    std::string WordToFind;
+    Database db("database.txt");
     if (argc < 2) {
-        std::cout << "Please provide a word to find." << std::endl;
+        std::cout << "Please provide a name to find." << std::endl;
         return 0;
     }
-    WordToFind= argv[1];
-    if (argc>2)
+    std::string nameToFind;
+    nameToFind = argv[1];
+    const auto additionalCommand = std::string(argc > 2 ? argv[2] : "");
+    if (nameToFind == bread)
     {
-        argument2 = argv[2];
-    }
-    if (WordToFind=="bread")
-    {
-        std::ofstream file("database.txt", std::ios::trunc); 
-        file.close();
+        db.clearDatabase();
         std::cout << "all data was cleared" << std::endl;
         return 0;
     }
-    std::ifstream file("database.txt");
-    std::string line;
-    int lineNumber = 0;
-    bool found = false;
-    std::string lineFound;
-
-    std::vector<std::string> lines;
- 
-    while (std::getline(file, line)) {
-        lines.push_back(line);
-    }
-    file.close();
-    for (const std::string& line : lines) {
-        lineNumber++;
-        if (line != "") {
-            if (splitString(line, ' ')[0] == WordToFind)
-            {
-                found = true;
-                lineFound = line;
-                break;
-            }
-        }
-    }
-    if (!found) {
-        if (argument2 == "delete") {
-            std::cout << "There is no such user " <<std::endl;
-            return 0;
-        }
-        std::cout << "Welcome " << WordToFind << std::endl;
-        std::ofstream fileEdit("database.txt", std::ios::app);
-        if (!fileEdit.is_open()) {
-            std::cerr << "Could not open the file for writing!" << std::endl;
-            return 1;
-        }
-        fileEdit << WordToFind << " 1" << std::endl;
-        fileEdit.close();
-    }
-    else {
-        if (argument2 == "delete") {
-
-            for (int i = 0; i < lines.size(); i++)
-            {
-                if (splitString(lines[i], ' ')[0] == WordToFind)
-                {
-                    lines.erase(lines.begin() + i);
-                }
-            }
-            std::ofstream fileEdit("database.txt", std::ios::trunc);
-            for (const auto& line : lines) {
-                if (line != "")
-                {
-                    fileEdit << line << std::endl;
-                }
-            }
-            std::cout << "All data about this user was cleared" << std::endl;
-            return 0;
-        }
-
-        std::ofstream fileEdit("database.txt", std::ios::trunc);
-        std::vector<std::string> arraySplitted=splitString(lineFound, ' ');
-       int num = std::stoi(arraySplitted[1]);
-       num++;
-       lines[lineNumber - 1] = arraySplitted[0] +" " + std::to_string(num);
-       for (const auto& line : lines) {
-           if (line != "")
-           {
-               fileEdit << line << std::endl;
-           }
-       }
-       std::cout << "Hello again(x"<<num <<"),"<< WordToFind << std::endl;
-       fileEdit.close();
-    }
+   std::cout << db.PerformChanges(nameToFind,additionalCommand)<< std::endl;
+    return 0;
 }
