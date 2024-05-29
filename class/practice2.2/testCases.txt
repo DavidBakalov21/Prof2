@@ -1,37 +1,37 @@
 Test case "Bad arguments"
 Precondition: none
 Test Steps:
-1. User starts program without arguments .\picture.exe
-Expected result:  "Error:Please provide all arguments".
-2. User starts program without arguments .\picture.exe image.txt
-Expected result:  "Error:Please provide all arguments".
+1. User starts program without arguments .\main
+Expected result: Program output is "Error:Please provide all arguments".
+2. User starts program without arguments .\main image.txt
+Expected result: Program output is "Error:Please provide all arguments".
 
 Test case "Normal usage"
 Precondition: image.txt contains entered color
 Test Steps:
-1. User starts program without arguments .\picture.exe image.txt 255,97,105
-Expected result:  "Image was changed successfully".
+1. User starts program without arguments .\main image.txt 255,97,105
+Expected result: Program output is "Image was changed successfully".
 2. Perform an automatic check
-Expected result: "Files are identical"
+Expected result: Test output is "Files are identical"
 
 
 Test case 3 "Bad colors"
 Precondition: Color was entered in wrong format
 Test Steps:
-1. User starts program without arguments .\picture.exe image.txt 255bf,974cgb
-Expected result:  "Please, enter existing color for example 255,97,105".
-2. User starts program without arguments .\picture.exe image.txt 255,974,906
-Expected result:  "Please, enter existing color for example 255,97,105".
+1. User starts program without arguments .\main image.txt 255bf,974cgb
+Expected result: Program output is "Please, enter existing color for example 255,97,105".
+2. User starts program without arguments .\main image.txt 255,974,906
+Expected result: Program output is "Please, enter existing color for example 255,97,105".
 
 Test case 4 "Wrong size picture"
 Precondition: Image.txt doesn't contain 16x16 pixels
 Test Steps:
-1. User starts program without arguments .\picture.exe imageBadSize.txt 255,97,105
-Expected result:  "Please, provide 16x16 image".
+1. User starts program without arguments .\main imageBadSize.txt 255,97,105
+Expected result: Program output is "Please, provide 16x16 image".
 
 Test case 5 "Wrong colors picture"
 Precondition: Image.txt contains pixels with impossible colors
 Test Steps:
-1. User starts program without arguments .\picture.exe imageBadColor.txt 255,97,105
-Expected result:  "Please, provide image with valid colors".
+1. User starts program without arguments .\main imageBadColor.txt 255,97,105
+Expected result: Program output is "Please, provide image with valid colors".
 
