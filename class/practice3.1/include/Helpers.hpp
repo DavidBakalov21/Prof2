@@ -5,4 +5,4 @@
 #include <sstream>
 #include <algorithm>
 double dummyFunc(double x);
-std::string StringReapeater(std::vector<int> vec, std::string str);
+std::string StringReapeater(const std::vector<int>& vec, const std::string& str);
