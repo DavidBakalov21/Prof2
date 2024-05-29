@@ -3,15 +3,15 @@
 #include <fstream>
 #include <sstream>
 #include <map>
-#include <format>
+#include <print>
 namespace {
-    const std::string bread = "bread";
-    const std::string deleteCommand = "delete";
+   constexpr const char* bread = "bread";
+   constexpr const char* deleteCommand = "delete";
 }
 class Database {
 
 public:
-    Database(const std::string& filePath) : database(filePath) {
+    Database(const std::string& filePath) : databasePath(filePath) {
          LoadData();
     }
     void clearDatabase() {
@@ -32,17 +32,16 @@ public:
     int UserIncrement(const std::string& nameToFind) {
          statsData[nameToFind]++;
          SaveData();
-         auto count = statsData[nameToFind];
-         return count;
+         return statsData[nameToFind];
     }
-    std::map<std::string, int> getStatsData(){
-        return statsData;
+    bool checkName(const std::string& nameToFind){
+        return statsData.find(nameToFind)!=statsData.end();
     }
 private:
     std::map<std::string, int> statsData;
-    const std::string database;
+    const std::string databasePath;
     void LoadData() {
-        std::ifstream file(database);
+        std::ifstream file(databasePath);
         std::string name;
         int count;
         while (file >> name >> count) {
@@ -51,19 +50,43 @@ private:
         file.close();
     }
     void SaveData() {
-        std::ofstream file(database, std::ios::trunc);
+        std::ofstream file(databasePath, std::ios::trunc);
         for (const auto& [name, count] : statsData ) {
             file << name << " " << count << std::endl;
         }
         file.close();
     }
 };
+
+int notFoundNameHandling(const std::string& additionalCommand, const std::string& nameToFind, Database& db ){
+    if (additionalCommand == deleteCommand) {
+        std::println("There is no such user ");
+        return 1;
+    }
+    db.UserIncrement(nameToFind);
+    std::println("Welcome {}",nameToFind);
+    return 0;
+}
+
+int FoundNameHandling(const std::string& additionalCommand, const std::string& nameToFind, Database& db ){
+    if (additionalCommand == deleteCommand) {
+        if (db.deleteUser(nameToFind)==true){
+            std::println("All data about this user was cleared");
+            return 0;
+        }
+        std::println("There was no such user");
+        return 1;
+    }
+    std::println("Hello again(x{}),{}", db.UserIncrement(nameToFind), nameToFind);
+    return 0;
+}
+
 int main(int argc, char* argv[])
 {
     Database db("database.txt");
 
     if (argc < 2) {
-        std::cout << "Please provide a name to find." << std::endl;
+        std::println("Please provide a name to find.");
         return 1;
     }
 
@@ -74,29 +97,15 @@ int main(int argc, char* argv[])
     if (nameToFind == bread)
     {
         db.clearDatabase();
-        std::cout << "all data was cleared" << std::endl;
+        std::println("all data was cleared");
         return 0;
     }
 
-    std::map<std::string, int> statsData=db.getStatsData();
-    if (statsData.find(nameToFind)==statsData.end()) {
-        if (additionalCommand == deleteCommand) {
-           std::cout <<"There is no such user "<<std::endl;
-           return 1;
-        }
-     db.UserIncrement(nameToFind);
-     std::cout <<"Welcome " <<nameToFind<<std::endl;
+    if (!db.checkName(nameToFind)) {
+        return notFoundNameHandling(additionalCommand,nameToFind,db);
     }
     else {
-        if (additionalCommand == deleteCommand) {
-            if (db.deleteUser(nameToFind)==true){
-                std::cout << "All data about this user was cleared"<<std::endl;
-                return 0;
-            }
-            std::cout << "There was no such user"<<std::endl;
-            return 1;
-        }
-        std::cout<<"Hello again(x" << db.UserIncrement(nameToFind) << ")," << nameToFind<<std::endl;
+        return FoundNameHandling(additionalCommand,nameToFind,db);
     }
     return 0;
 }

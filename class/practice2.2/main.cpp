@@ -5,26 +5,38 @@
 #include <sstream>
 #include <ranges>
 #include <print>
+
 std::vector<std::string> splitString(const std::string& str, const char delimiter) {
     return str  | std::ranges::views::split(delimiter)
-       | std::ranges::views::transform([](auto&& subrange) {
-                 return std::string(subrange.begin(), subrange.end());
-              })
-       | std::ranges::to<std::vector>();
+       | std::ranges::to<std::vector<std::string>>();
 }
 
 class Pixel
 {
 private:
     std::string color;
+    int r;
+    int g;
+    int b;
 public:
     Pixel(const std::string& col):color(col){}
     std::string getColor() const {
         return color;
     }
+
+
+ bool isValid() const {
+    return (red >= 0 && red <= 255) &&
+            (green >= 0 && green <= 255) &&
+            (blue >= 0 && blue <= 255);
+    }
+
+
+
     void setColor(const std::string& col){
         color=col;
     }
+
     bool isValid(){
          std::vector<std::string> elements = splitString(color, ',');
         if (elements.size() < 3) {
@@ -56,17 +68,17 @@ std::string listToStr(const std::vector<Pixel>& list) {
     }
     return oss.str();
 }
+
 namespace {
     const int MatrixSize = 16;
 }
-
-
 
 class Image {
 private:
     std::vector<std::vector<Pixel>> lines;
     std::string file;
     Pixel color;
+
     int saveFile() {
         std::ofstream fileEdit("Output"+file, std::ios::trunc);
         for (const auto& line : lines) {
@@ -79,6 +91,7 @@ private:
         fileEdit.close();
         return 0;
     }
+
 public:
      Image(const std::string& filePath, const Pixel& colorArgument) : file(filePath), color(colorArgument) {}
     std::vector<std::vector<Pixel>> getLines() const {
