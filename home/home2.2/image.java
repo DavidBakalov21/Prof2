@@ -6,6 +6,9 @@ import java.io.BufferedWriter;
 
 class Constants {
     public static final int MatrixSize = 16;
+    public static final int Fine = 0;
+    public static final int sizeProblem = 1;
+    public static final int colorProblem = 2;
 }
 
 class Color {
@@ -80,23 +83,23 @@ class ImageMatrix{
             String[] SplitedLine=line.split(" ");
             Pixel[] pixels=new Pixel[Constants.MatrixSize];
                 if (SplitedLine.length!= Constants.MatrixSize){
-                    return 1;
+                    return Constants.sizeProblem;
                 }       
                 for (int i = 0; i <SplitedLine.length; i++) {
                     Pixel pix=new Pixel(SplitedLine[i]);
                     if (!pix.isValid()) {
-                        return 2;
+                        return Constants.colorProblem;
                     }
                     pixels[i]=pix;
                 }
                 if (indexCounter == Constants.MatrixSize) {
-                    return 1;
+                    return Constants.sizeProblem;
                 }
                 lines[indexCounter]=pixels;
                 indexCounter++;
             }    
         } catch (Exception e) {}
-        return 0;
+        return Constants.Fine;
     }
 
     public void changeMatrix(Pixel favouriteColor, Pixel hatedColor){
@@ -161,12 +164,12 @@ public class image {
         }
         ImageMatrix image = new ImageMatrix(filename);
         int loadResult=image.loadMatrix();
-        if(loadResult!=0){
+        if(loadResult!=Constants.Fine){
             switch(loadResult) {
-                case 1:
+                case Constants.sizeProblem:
                     System.out.println("Please, provide 16x16 image");
                     break;
-                case 2:
+                case Constants.colorProblem:
                     System.out.println("Please, provide image with valid colors");
                     break;
                 default:
