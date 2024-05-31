@@ -32,7 +32,7 @@ run_test_cases() {
     for test_case in "${test_cases[@]}"; do
         IFS="|" read -r -a case_parts <<< "$test_case"
         IFS=" " read -r -a args <<< "${case_parts[0]}"
-        execute_test "java AdvancedJava" "${case_parts[1]}" "${args[@]}"   
+        execute_test "java hello" "${case_parts[1]}" "${args[@]}"   
     done
     delete_file
 }
