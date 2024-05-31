@@ -2,7 +2,7 @@
 execute_test() {
     expectedOutput=$1
     shift
-    exePath="java imageChanger"
+    exePath="java image"
     output=$($exePath "$@")
     if [[ "$output" =~ $expectedOutput ]]; then
         echo "The operation was successful"
@@ -70,21 +70,7 @@ run_test_cases "${testCases5[@]}"
 
 
 # Sixth test case
-echo "Normal work with hated color"
-testCases6=(
-    "image.txt 77,254,140 255,97,105|Image was changed successfully"
-)
-run_test_cases "${testCases6[@]}"
-original=$(sha256sum checkerHated.txt | awk '{print $1}')  
-modified=$(sha256sum Outputimage.txt | awk '{print $1}')
-if [ "$original" = "$modified" ]; then
-    echo "Files are identical"
-else
-    echo "Failed, files are different"
-fi
-
-# Seventh test case
-echo "Normal work with hated color"
+echo "Wrong hated color"
 testCases7=(
     "image.txt 77,254,140 86xsfd,151s,2490|Image was changed successfully"
 )

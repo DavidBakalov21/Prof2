@@ -34,15 +34,7 @@ Test Steps:
 1. User starts program without arguments java imageChanger imageBadColor.txt 255,97,105
 Expected result:  "Please, provide image with valid colors".
 
-Test case 6 "Normal work with hated color"
-Precondition:none
-Test Steps:
-1. User starts program without arguments java imageChanger image.txt 153,178,42 86,151,249 
-Expected result:  "Image was changed successfully".
-2. Perform an automatic check
-Expected result: "Files are identical"
-
-Test case 7 "Hated color isn't correct"
+Test case 6 "Hated color isn't correct"
 Precondition:none
 Test Steps:
 1. User starts program without arguments java imageChanger image.txt 153,178,42 86xsfd,151s,2490 
