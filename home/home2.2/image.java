@@ -2,6 +2,8 @@ import java.io.FileWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 class Constants {
     public static final int MatrixSize = 16;
@@ -38,7 +40,7 @@ class Pixel{
     }
     
     public String toString() {
-        return color.r + "," + color.g + "," + color.b;
+        return String.format("%d,%d,%d", color.r, color.g, color.b);
     }
 
     public boolean isValid() {
@@ -97,7 +99,10 @@ class ImageMatrix{
                 lines[indexCounter]=pixels;
                 indexCounter++;
             }    
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
+        }
         return Constants.Fine;
     }
 
@@ -120,29 +125,27 @@ class ImageMatrix{
     }
     
     public void saveFile() {
-    try (BufferedWriter fileEdit = new BufferedWriter(new FileWriter("Output" + pixelMatrixFile))) {
-        for (int i = 0; i < Constants.MatrixSize; i++) {
-            String lineStr = arrayToString(lines[i]);
-            if (!lineStr.isEmpty()) {
-                fileEdit.write(lineStr);
-                if (i < Constants.MatrixSize - 1) {
-                    fileEdit.newLine();
+        try (BufferedWriter fileEdit = new BufferedWriter(new FileWriter("Output" + pixelMatrixFile))) {
+            for (int i = 0; i < Constants.MatrixSize; i++) {
+                String lineStr = arrayToString(lines[i]);
+                if (!lineStr.isEmpty()) {
+                    fileEdit.write(lineStr);
+                    if (i < Constants.MatrixSize - 1) {
+                        fileEdit.newLine();
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.err.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace();
         }
-    } catch (Exception e) {}
     }
 
     private String arrayToString(Pixel[] line) {
-        StringBuilder sb = new StringBuilder();
-        for (Pixel s : line) {
-            if (sb.length() > 0) {
-                sb.append(" ");
-            }
-            sb.append(s.toString());
-        }
-        return sb.toString();
-    } 
+        return Arrays.stream(line)
+                     .map(Pixel::toString)
+                     .collect(Collectors.joining(" "));
+    }
 }
 
 public class image {
@@ -163,22 +166,22 @@ public class image {
         }
         ImageMatrix image = new ImageMatrix(filename);
         int loadResult=image.loadMatrix();
-        if(loadResult!=Constants.Fine){
-            switch(loadResult) {
-                case Constants.sizeProblem:
-                    System.out.println("Please, provide 16x16 image");
-                    break;
-                case Constants.colorProblem:
-                    System.out.println("Please, provide image with valid colors");
-                    break;
-                default:
-                    System.out.println("Unknown error happened");
-                    break;
-            }
-            return;
+        switch(loadResult) {
+            case Constants.sizeProblem:
+                System.out.println("Please, provide 16x16 image");
+                break;
+            case Constants.colorProblem:
+                System.out.println("Please, provide image with valid colors");
+                break;
+            case Constants.Fine:
+                image.changeMatrix(colorPicked, colorOfHate);
+                image.saveFile();
+                System.out.println("Image was changed successfully");
+                break;
+            default:
+                System.out.println("Unknown error happened");
+                break;
         }
-        image.changeMatrix(colorPicked, colorOfHate);
-        image.saveFile();
-        System.out.println("Image was changed successfully");
+        return;
     }
 }

@@ -1,8 +1,8 @@
 public class Inverse {
     public double calculateInverse(double x, double y, double z) {
-        double multiplied = x * y * z;
-        if (multiplied!=0) {
-            return 1/multiplied;
+        double product = x * y * z;
+        if (product!=0) {
+            return 1/product;
         }
 
         double sum = x + y + z;

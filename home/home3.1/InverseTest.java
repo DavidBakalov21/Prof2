@@ -4,34 +4,46 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InverseTest {
 
     @Test
-    public void PasitiveArguments() {
+    public void PasitiveArguments() { // The purpuse of this test is to check normal work with positive arguments.
+        //build
         Inverse inverse = new Inverse();
+        //operate 
         double result = inverse.calculateInverse(2, 3, 4);
-        double expected=1.0/24.0;
-        assertEquals(expected, result, "iverse to the 24 should be equal to 1/24");
+        // check
+        double expected=0.041666666666666664;
+        assertEquals(expected, result);
     }
 
     @Test
-    public void ZeroProduct() {
+    public void ZeroProduct() { // The purpuse of this test is to check work where product of numbers is zero
+        //build
         Inverse inverse = new Inverse();
+        //operate 
         double result = inverse.calculateInverse(0, 2, 3);
-        double expected=1.0/5.0;
-        assertEquals(expected, result, "iverse to the 5 should be equal to 1/5");
+        // check
+        double expected=0.2;
+        assertEquals(expected, result);
     }
 
     @Test
-    public void SumProductZero() {
+    public void SumProductZero() { // The purpuse of this test is to check work when sum and product of numbers are zero
+        //build
         Inverse inverse = new Inverse();
+        //operate 
         double result = inverse.calculateInverse(0,0,0);
+         // check
         double expected=-1.0;
-        assertEquals(expected, result, "0 + (0+1)*(0-1) should be equal to -1");
+        assertEquals(expected, result);
     }
 
     @Test
-    public void NegativeValues() {
+    public void NegativeValues() { // The purpose of this test is to check work when product is negative
+        //build
         Inverse inverse = new Inverse();
+        //operate 
         double result = inverse.calculateInverse(-1,-1,-1);
+        // check
         double expected=-1.0;
-        assertEquals(expected, result, "iverse to the -1 should be equal to -1");
+        assertEquals(expected, result);
     }
 }
