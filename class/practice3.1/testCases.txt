@@ -1,0 +1,35 @@
+Test case "Repeater_4homes"
+Precondition: none
+Test Steps:
+1. User runs a program with {2,3,4} as a vector and "home" as a string
+Expected result:  "homehomehomehome".
+
+Test case "Repeater_0homes"
+Precondition: none
+Test Steps:
+1. User runs a program with {-2,-1,0} as a vector and "home" as a string
+Expected result:  "".
+
+Test case "Repeater_emptyVector"
+Precondition: none
+Test Steps:
+1. User runs a program with {} as a vector and "home" as a string
+Expected result:  "".
+
+Test case "Repeater_negativeNumbers"
+Precondition: none
+Test Steps:
+1. User runs a program with {} as a vector and "home" as a string
+Expected result:  "".
+
+Test case "Repeater_emptyString"
+Precondition: none
+Test Steps:
+1. User runs a program with {2,3,4} as a vector and "" as a string
+Expected result:  "".
+
+Test case "Repeater_emptyStringEmptyVec"
+Precondition: none
+Test Steps:
+1. User runs a program with {} as a vector and "" as a string
+Expected result:  "".

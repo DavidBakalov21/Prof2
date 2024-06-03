@@ -1,2 +1,1 @@
-./testerjava.ps1
-./tester.ps1
+./tester.sh
