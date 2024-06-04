@@ -9,7 +9,7 @@ std::string Triangle::getArea(){
     if (isValid()){
         return std::format("{:.2f}", calculateArea());
     }else{
-        return "tringle is invalid";
+        return "triangle is invalid";
     }
 };
 
