@@ -6,7 +6,7 @@
 int main() {
     UnitTests testSuite;
 
-    testSuite.addTest("Case where result has numbers after coma",
+    testSuite.addTest("Normal use case",
     [](){
         // Build:
         double first = 3;
@@ -50,7 +50,7 @@ int main() {
         auto result = triangle.getArea();
 
         //Check:
-        ASSERT_EQ(result, "tringle is invalid")
+        ASSERT_EQ(result, "triangle is invalid")
        
     });
      testSuite.run();
