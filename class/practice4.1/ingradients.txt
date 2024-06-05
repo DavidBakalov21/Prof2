@@ -1,0 +1,9 @@
+tomatoes-5
+mozarrella-3
+onion-6
+mushrooms-3
+ketchup-1
+mayo-1
+ham-4
+pepperoni-2
+
