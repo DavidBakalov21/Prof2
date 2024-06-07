@@ -5,7 +5,7 @@ public:
 
     Triangle(const double& first, const double& second, const double& third);
 
-    std::string getArea();
+    double calculateArea();
 
 private:
     double a;
@@ -14,5 +14,5 @@ private:
 
     bool isValid();
 
-    double calculateArea();
+   
 };

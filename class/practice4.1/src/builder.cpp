@@ -1,8 +1,5 @@
 #include "builder.hpp"
-#include <map>
-#include <fstream>
 #include <string>
-#include <cstdlib>
 #include <format>
 Pizza::Pizza() :price(0.0) {}
 
@@ -10,10 +7,10 @@ std::string Pizza::showPizza() const {
     return std::format("First: {} Second: {} Third: {} Fourth: {} Price: ${}",
                        first, second, third, fourth, price);
 }
-BestPizzaBuilder::BestPizzaBuilder() {
-    this->pizza = new Pizza();
-}
 
+BestPizzaBuilder::BestPizzaBuilder() {
+    this->pizza = std::make_unique<Pizza>();
+}
 
 void BestPizzaBuilder::setFirst(const std::string& firstPicked, const double cost) {
     pizza->first = firstPicked;
@@ -35,8 +32,8 @@ void BestPizzaBuilder::setFourth(const std::string& fourthPicked, const double c
     pizza->price += cost;
 }
 
-Pizza* BestPizzaBuilder::getPizza() {
-    return pizza;
+std::unique_ptr<Pizza> BestPizzaBuilder::getPizza() {
+    return std::move(pizza);
 }
 
 void Director::setBuilder(PizzaBuilder* b) {

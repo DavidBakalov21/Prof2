@@ -4,6 +4,7 @@
 #include <string>
 #include <print>
 #include <fstream>
+#include <memory>
 std::map<std::string, double> readProducts(const std::string& filename){
     std::map<std::string, double> products;
     std::ifstream file(filename);
@@ -57,7 +58,7 @@ int main(){
     
     if (choice=="done"){
         director.constructPizza(souce, meat, cheese, addons, productList[souce], productList[meat], productList[cheese], productList[addons]);
-        Pizza* gamingPizza = gamingBuilder.getPizza();    
+        std::unique_ptr<Pizza> gamingPizza = gamingBuilder.getPizza();    
         std::println("Your pizza is {}",gamingPizza->showPizza());
         return 0;
     }else{

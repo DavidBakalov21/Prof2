@@ -1,7 +1,8 @@
 #pragma once
 
+#include <memory>
+#include <format>
 #include <string>
-#include <map>
 class Pizza {
 public:
     std::string first;
@@ -20,13 +21,12 @@ public:
     virtual void setSecond(const std::string& second, const double price) = 0;
     virtual void setThird(const std::string& third, const double price) = 0;
     virtual void setFourth(const std::string& fourth, const double price) = 0;
-    virtual Pizza* getPizza() = 0;
+    virtual std::unique_ptr<Pizza> getPizza() = 0;
 };
-
 
 class BestPizzaBuilder : public PizzaBuilder {
 private:
-    Pizza* pizza;
+    std::unique_ptr<Pizza> pizza;
 
 public:
     BestPizzaBuilder();
@@ -34,7 +34,7 @@ public:
     void setSecond(const std::string& secondPicked, const double cost) override;
     void setThird(const std::string& thirdPicked, const double cost) override;
     void setFourth(const std::string& fourthPicked, const double cost) override;
-    Pizza* getPizza() override;
+    std::unique_ptr<Pizza> getPizza() override;
 };
 
 class Director {
@@ -43,5 +43,5 @@ private:
 
 public:
     void setBuilder(PizzaBuilder* b);
-    void constructPizza(const std::string& first, const std::string& second, const std::string& third , const std::string& fourth, const double firstPrice, const double secondPrice, const double thirdPrice, const double addonPrice);
+    void constructPizza(const std::string& first, const std::string& second, const std::string& third, const std::string& fourth, const double firstPrice, const double secondPrice, const double thirdPrice, const double fourthPrice);
 };

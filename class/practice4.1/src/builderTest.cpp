@@ -1,7 +1,7 @@
 #include <print>
 #include <builder.hpp>
 #include <UnitTests.hpp>
-
+#include <memory>
 
 int main() {
     UnitTests testSuite;
@@ -13,7 +13,7 @@ int main() {
         BestPizzaBuilder gamingBuilder;
         director.setBuilder(&gamingBuilder);
         director.constructPizza("mayo", "meat", "mozzarella", "onions", 1,2,3,4);
-        Pizza* gamingPizza = gamingBuilder.getPizza();
+        std::unique_ptr<Pizza> gamingPizza = gamingBuilder.getPizza();
         
         // Operate:
         auto result =gamingPizza->showPizza();
@@ -30,7 +30,7 @@ int main() {
         BestPizzaBuilder gamingBuilder;
         director.setBuilder(&gamingBuilder);
         director.constructPizza("nothing", "nothing", "nothing", "nothing", 0,0,0,0);
-        Pizza* gamingPizza = gamingBuilder.getPizza();
+        std::unique_ptr<Pizza> gamingPizza = gamingBuilder.getPizza();
         
         // Operate:
         auto result =gamingPizza->showPizza();

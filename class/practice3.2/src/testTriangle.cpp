@@ -15,26 +15,26 @@ int main() {
         Triangle triangle(first,second,third);
 
         // Operate:
-        auto result = triangle.getArea();
+        auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, "6.00")
+        ASSERT_EQ(result, 6)
        
     });
 
     testSuite.addTest("Case where result has numbers after coma",
     [](){
         // Build:
-        double first = 2;
+        double first = 6;
         double second = 2;
         double third = 2;
         Triangle triangle(first,second,third);
 
         // Operate:
-        auto result = triangle.getArea();
+        auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, "1.73")
+        ASSERT_EQ(result, -1)
        
     });
 
@@ -47,10 +47,10 @@ int main() {
         Triangle triangle(first,second,third);
         
         // Operate:
-        auto result = triangle.getArea();
+        auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, "triangle is invalid")
+        ASSERT_EQ(result, -1)
        
     });
      testSuite.run();

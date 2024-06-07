@@ -5,18 +5,14 @@
 
 Triangle::Triangle(const double& first, const double& second, const double& third): a(first), b(second), c(third){}
 
-std::string Triangle::getArea(){
-    if (isValid()){
-        return std::format("{:.2f}", calculateArea());
-    }else{
-        return "triangle is invalid";
-    }
-};
-
 double Triangle::calculateArea(){
-    double s = (a + b + c) / 2.0;
-    double area = sqrt(s * (s - a) * (s - b) * (s - c));
-    return area;
+    if (isValid()){
+        double s = (a + b + c) / 2.0;
+        double area = sqrt(s * (s - a) * (s - b) * (s - c));
+        return area;
+    }else{
+        return -1;
+    }
 }
 
 bool Triangle::isValid(){
