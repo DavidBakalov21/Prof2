@@ -15,7 +15,7 @@ int main() {
         Color col(red,green,blue);
 
         // Operate:
-        auto result = col.createMagicColor().getColor();
+        auto result = col.createMagicColor().toString();
 
         //Check:
         ASSERT_EQ(result, "99,198,5")
@@ -31,7 +31,7 @@ int main() {
         Color col(red,green,blue);
 
         // Operate:
-        auto result = col.createMagicColor().getColor();
+        auto result = col.createMagicColor().toString();
 
         //Check:
         ASSERT_EQ(result, "0,0,0")
@@ -47,7 +47,7 @@ int main() {
         Color col(red,green,blue);
         
         // Operate:
-        auto result = col.createMagicColor().getColor();
+        auto result = col.createMagicColor().toString();
 
         //Check:
         ASSERT_EQ(result, "0,0,0")

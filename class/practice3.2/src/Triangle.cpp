@@ -2,16 +2,16 @@
 #include <cmath>
 #include <string>
 #include <format>
-
+#include <optional>
 Triangle::Triangle(const double& first, const double& second, const double& third): a(first), b(second), c(third){}
 
-double Triangle::calculateArea(){
-    if (isValid()){
+[[nodiscard]] std::optional<double> Triangle::calculateArea(){
+    if (!isValid()){
+        return std::nullopt;
+    }else{
         double s = (a + b + c) / 2.0;
         double area = sqrt(s * (s - a) * (s - b) * (s - c));
         return area;
-    }else{
-        return -1;
     }
 }
 

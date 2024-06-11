@@ -7,7 +7,7 @@ public:
 
     Color createMagicColor() const;
 
-    std::string getColor() const;
+    std::string toString() const;
 
 private:
     bool isValid() const;

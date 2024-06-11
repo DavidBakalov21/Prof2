@@ -18,8 +18,7 @@ int main() {
         auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, 6)
-       
+        ASSERT_EQ(result.value(), 6)
     });
 
     testSuite.addTest("Case where result has numbers after coma",
@@ -34,7 +33,7 @@ int main() {
         auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, -1)
+        ASSERT_EQ(result.has_value(), false)
        
     });
 
@@ -50,7 +49,7 @@ int main() {
         auto result = triangle.calculateArea();
 
         //Check:
-        ASSERT_EQ(result, -1)
+        ASSERT_EQ(result.has_value(), false)
        
     });
      testSuite.run();

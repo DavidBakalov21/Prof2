@@ -17,7 +17,7 @@ Color Color::createMagicColor() const {
     return Color(0, 0, 0);
 }
 
-std::string Color::getColor() const {
+std::string Color::toString() const {
     return std::format("{},{},{}", red, green, blue);
 }
 
