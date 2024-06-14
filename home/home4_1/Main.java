@@ -99,6 +99,7 @@ public class Main {
             ingredients = buildCustom(scanner);
         } else {
             System.out.println("no such options");
+            scanner.close();
             return;
         }
 
