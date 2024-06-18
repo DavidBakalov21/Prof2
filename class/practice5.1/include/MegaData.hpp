@@ -32,34 +32,31 @@ public:
     }
 
     int usedSize() const {
-        return usedCounter;
+        return std::count(availableObjects.begin(), availableObjects.end(), false);
     }
 
     [[nodiscard]] std::optional<std::reference_wrapper<MegaData>> acquire() {
         for (int i = 0; i < pool.size(); i++) {
             if (availableObjects[i]) {
                 availableObjects[i] = false;
-                usedCounter++;
                 return pool[i];
             }
         }
         return std::nullopt;
     }
 
-    void release(MegaData& object) {
+    bool release(MegaData& object) {
         for (int i = 0; i < pool.size(); i++) {
             if (&pool[i] == &object) {
                 object.fillData();
                 availableObjects[i] = true;
-                usedCounter--;
-                return;
+                return true;
             }
         }
-        std::println("Error with that object");
+        return false;
     }
 
 private:
     std::vector<MegaData> pool;
     std::vector<bool> availableObjects;
-    int usedCounter = 0;
 };

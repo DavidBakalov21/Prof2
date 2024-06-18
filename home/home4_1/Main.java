@@ -9,6 +9,7 @@ import java.io.FileReader;
 
 class Constants {
     public static final String custom = "custom";
+    public static final String done = "done";
     public static final String predefined = "predefined";
     public static Map<String, Double> productList = new HashMap<>();
     public static Map<String, String[]> predefinedList = new HashMap<>();
@@ -107,7 +108,7 @@ public class Main {
             System.out.println("Enter <done> to finish order");
             String doneChoice = scanner.nextLine().trim();
 
-            if (doneChoice.equals("done")) {
+            if (doneChoice.equals(Constants.done)) {
                 String[] selectedIngredients = ingredients.get();
                 director.constructPizza(selectedIngredients[0], selectedIngredients[1], selectedIngredients[2], selectedIngredients[3],
                         Constants.productList.get(selectedIngredients[0]), Constants.productList.get(selectedIngredients[1]),

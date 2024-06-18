@@ -1,0 +1,2 @@
+In case of long term support adapter pattern can be used to make 
+old classes work with new ones
