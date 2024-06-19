@@ -1,2 +1,14 @@
 In case of long term support adapter pattern can be used to make 
 old classes work with new ones
+
+
+.asList() example 
+
+Let's suppose that we have an array of values , both array and list are used to store values.However, there ara many methods are only available with list.
+For that we can use asList method for array (for example contains)
+Here are code example:
+
+Integer[] nums = {1, 2, 3, 4, 5};
+List<Integer> numList = Arrays.asList(nums);
+boolean containsOne = numList.contains(1);
+System.out.println(containsOne);
