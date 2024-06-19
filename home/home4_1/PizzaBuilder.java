@@ -1,5 +1,8 @@
 
 package home4_1;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+
 public abstract class PizzaBuilder {
     protected Pizza pizza;
 
@@ -11,8 +14,5 @@ public abstract class PizzaBuilder {
         pizza = new Pizza();
     }
 
-    public abstract void setFirst(String first, double cost);
-    public abstract void setSecond(String second, double cost);
-    public abstract void setThird(String third, double cost);
-    public abstract void setFourth(String fourth, double cost);
+    public abstract void setIngredients(List<SimpleEntry<String, Double>> ingredients);
 }

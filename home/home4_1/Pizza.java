@@ -1,38 +1,28 @@
 
 package home4_1;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pizza {
-    private String first;
-    private String second;
-    private String third;
-    private String fourth;
+    private List<String> ingredients;
     private double price;
 
     public Pizza() {
+        this.ingredients = new ArrayList<>();
         this.price = 0.0;
     }
 
-    public void setFirst(String first, double cost) {
-        this.first = first;
-        this.price += cost;
-    }
-
-    public void setSecond(String second, double cost) {
-        this.second = second;
-        this.price += cost;
-    }
-
-    public void setThird(String third, double cost) {
-        this.third = third;
-        this.price += cost;
-    }
-
-    public void setFourth(String fourth, double cost) {
-        this.fourth = fourth;
+    public void addIngredient(String ingredient, double cost) {
+        this.ingredients.add(ingredient);
         this.price += cost;
     }
 
     public String showPizza() {
-        return String.format("First: %s Second: %s Third: %s Fourth: %s Price: $%.2f",
-                first, second, third, fourth, price);
+        StringBuilder pizzaDescription = new StringBuilder("Ingredients: ");
+        for (String ingredient : ingredients) {
+            pizzaDescription.append(ingredient).append(" ");
+        }
+        pizzaDescription.append(String.format("Price: $%.2f", price));
+        return pizzaDescription.toString();
     }
 }

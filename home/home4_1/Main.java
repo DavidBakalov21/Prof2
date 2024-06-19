@@ -1,11 +1,13 @@
 package home4_1;
-
+import java.util.List;
 import java.util.Scanner;
 import java.util.Optional;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 
 class Constants {
     public static final String custom = "custom";
@@ -41,8 +43,8 @@ public class Main {
         return Constants.productList;
     }
 
-    public static Optional<String> ingredientInputer(String message, Map<String, Double> availableProducts, Scanner scanner) {
-        System.out.println("Pizza builder " + message);
+    public static Optional<String> ingredientInputer(Map<String, Double> availableProducts, Scanner scanner) {
+        System.out.println("Pizza builder: Enter product ");
         String product = scanner.nextLine().trim();
         if (availableProducts.containsKey(product)) {
             return Optional.of(product);
@@ -51,7 +53,7 @@ public class Main {
         }
     }
 
-    public static Optional<String[]> buildPredef(Scanner scanner) {
+    public static Optional<List<SimpleEntry<String, Double>>> buildPredef(Scanner scanner) {
         System.out.println("Here are predefined pizzas:");
         System.out.println("Carbonara (ham, mozzarella, onion, onion)");
         System.out.println("Hawaii (ham, mozzarella, mozzarella, mayo)");
@@ -60,27 +62,69 @@ public class Main {
 
         String pizza = scanner.nextLine().trim();
         if (Constants.predefinedList.containsKey(pizza)) {
-            return Optional.of(Constants.predefinedList.get(pizza));
+            List<SimpleEntry<String, Double>> ingredients = new ArrayList<>();
+            for (String ingredient : Constants.predefinedList.get(pizza)) {
+                ingredients.add(new SimpleEntry<>(ingredient, Constants.productList.getOrDefault(ingredient, 0.0)));
+            }
+            return Optional.of(ingredients);
         } else {
             return Optional.empty();
         }
     }
 
-    public static Optional<String[]> buildCustom(Scanner scanner) {
-        String[] ingredients = new String[4];
+    public static Optional<List<SimpleEntry<String, Double>>> buildCustom(Scanner scanner) {
+        List<SimpleEntry<String, Double>> ingredients = new ArrayList<>();
 
         for (Map.Entry<String, Double> product : Constants.productList.entrySet()) {
             System.out.println(product.getKey() + "-" + product.getValue() + "$");
         }
 
-        Constants.productList.put("nothing", 0.0);
-
-        ingredients[0] = ingredientInputer("What first do you want", Constants.productList, scanner).orElse("nothing");
-        ingredients[1] = ingredientInputer("What second do you want", Constants.productList, scanner).orElse("nothing");
-        ingredients[2] = ingredientInputer("What third do you want", Constants.productList, scanner).orElse("nothing");
-        ingredients[3] = ingredientInputer("What fourth do you want", Constants.productList, scanner).orElse("nothing");
+        for (int i = 0; i < 4; i++) {
+            Optional<String> ingredient = ingredientInputer(Constants.productList, scanner);
+            if (ingredient.isPresent()) {
+                ingredients.add(new SimpleEntry<>(ingredient.get(), Constants.productList.get(ingredient.get())));
+            } else {
+                System.out.println("Invalid ingredient entered, defaulting to 'nothing'.");
+                ingredients.add(new SimpleEntry<>("nothing", 0.0));
+            }
+        }
 
         return Optional.of(ingredients);
+    }
+
+    public static void handlePredefined(Scanner scanner, Director director, PizzaBuilder pizzaBuilder) {
+        Optional<List<SimpleEntry<String, Double>>> ingredients = buildPredef(scanner);
+        if (ingredients.isPresent()) {
+            finalizeOrder(scanner, director, pizzaBuilder, ingredients.get());
+        } else {
+            System.out.println("Invalid selection. Exiting.");
+        }
+    }
+
+    public static void handleCustom(Scanner scanner, Director director, PizzaBuilder pizzaBuilder) {
+        Optional<List<SimpleEntry<String, Double>>> ingredients = buildCustom(scanner);
+        if (ingredients.isPresent()) {
+            finalizeOrder(scanner, director, pizzaBuilder, ingredients.get());
+        } else {
+            System.out.println("Invalid selection. Exiting.");
+        }
+    }
+
+    public static void handleErrors() {
+        System.out.println("No such options");
+    }
+
+    public static void finalizeOrder(Scanner scanner, Director director, PizzaBuilder pizzaBuilder, List<SimpleEntry<String, Double>> ingredients) {
+        System.out.println("Enter <done> to finish order");
+        String doneChoice = scanner.nextLine().trim();
+
+        if (doneChoice.equals(Constants.done)) {
+            director.constructPizza(ingredients);
+            Pizza pizza = pizzaBuilder.getPizza();
+            System.out.println("Your pizza is " + pizza.showPizza());
+        } else {
+            System.out.println("Exiting");
+        }
     }
 
     public static void main(String[] args) {
@@ -91,36 +135,18 @@ public class Main {
         System.out.println("Custom or predefined");
         Constants.productList = readProducts("ingredients.txt");
         Scanner scanner = new Scanner(System.in);
-        String numsEntered = scanner.nextLine().trim();
-        Optional<String[]> ingredients;
+        String choice = scanner.nextLine().trim();
 
-        if (numsEntered.equals(Constants.predefined)) {
-            ingredients = buildPredef(scanner);
-        } else if (numsEntered.equals(Constants.custom)) {
-            ingredients = buildCustom(scanner);
-        } else {
-            System.out.println("no such options");
-            scanner.close();
-            return;
-        }
-
-        if (ingredients.isPresent()) {
-            System.out.println("Enter <done> to finish order");
-            String doneChoice = scanner.nextLine().trim();
-
-            if (doneChoice.equals(Constants.done)) {
-                String[] selectedIngredients = ingredients.get();
-                director.constructPizza(selectedIngredients[0], selectedIngredients[1], selectedIngredients[2], selectedIngredients[3],
-                        Constants.productList.get(selectedIngredients[0]), Constants.productList.get(selectedIngredients[1]),
-                        Constants.productList.get(selectedIngredients[2]), Constants.productList.get(selectedIngredients[3]));
-                Pizza pizza = bestPizzaBuilder.getPizza();
-                
-                System.out.println("Your pizza is " + pizza.showPizza());
-            } else {
-                System.out.println("Exiting");
-            }
-        } else {
-            System.out.println("Invalid selection. Exiting.");
+        switch (choice) {
+            case Constants.predefined:
+                handlePredefined(scanner, director, bestPizzaBuilder);
+                break;
+            case Constants.custom:
+                handleCustom(scanner, director, bestPizzaBuilder);
+                break;
+            default:
+                handleErrors();
+                break;
         }
 
         scanner.close();

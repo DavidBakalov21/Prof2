@@ -1,23 +1,13 @@
 package home4_1;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+
 public class BestPizzaBuilder extends PizzaBuilder {
 
     @Override
-    public void setFirst(String first, double cost) {
-        pizza.setFirst(first, cost);
-    }
-
-    @Override
-    public void setSecond(String second, double cost) {
-        pizza.setSecond(second, cost);
-    }
-
-    @Override
-    public void setThird(String third, double cost) {
-        pizza.setThird(third, cost);
-    }
-
-    @Override
-    public void setFourth(String fourth, double cost) {
-        pizza.setFourth(fourth, cost);
+    public void setIngredients(List<SimpleEntry<String, Double>> ingredients) {
+        for (SimpleEntry<String, Double> ingredient : ingredients) {
+            pizza.addIngredient(ingredient.getKey(), ingredient.getValue());
+        }
     }
 }

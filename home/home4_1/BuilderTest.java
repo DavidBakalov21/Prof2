@@ -10,8 +10,13 @@ public class BuilderTest {
         Director director = new Director();
         BestPizzaBuilder bestPizzaBuilder = new BestPizzaBuilder();
         director.setBuilder(bestPizzaBuilder);
-        director.constructPizza("mayo", "meat", "mozzarella", "onions", 1, 2, 3, 4);
-        Pizza gamingPizza = bestPizzaBuilder.getPizza();
+        List<SimpleEntry<String, Double>> ingredients = new ArrayList<>();
+        ingredients.add(new SimpleEntry<>("mayo", 1.0));
+        ingredients.add(new SimpleEntry<>("meat", 2.0));
+        ingredients.add(new SimpleEntry<>("mozzarella", 3.0));
+        ingredients.add(new SimpleEntry<>("onions", 4.0));
+        director.constructPizza(ingredients);
+        Pizza gamingPizza = bestPizzaBuilder.getPizza()
 
         // Operate:
         String result = gamingPizza.showPizza();
@@ -22,12 +27,18 @@ public class BuilderTest {
 
     @Test  
     public void zeroDollarPizza() {  
-   
+
+
         Director director = new Director();
         BestPizzaBuilder bestPizzaBuilder = new BestPizzaBuilder();
         director.setBuilder(bestPizzaBuilder);
-        director.constructPizza("nothing", "nothing", "nothing", "nothing", 0,0,0,0);
-        Pizza gamingPizza = bestPizzaBuilder.getPizza();
+        List<SimpleEntry<String, Double>> ingredients = new ArrayList<>();
+        ingredients.add(new SimpleEntry<>("nothing", 0));
+        ingredients.add(new SimpleEntry<>("nothing", 0));
+        ingredients.add(new SimpleEntry<>("nothing", 0));
+        ingredients.add(new SimpleEntry<>("nothing", 0));
+        director.constructPizza(ingredients);
+        Pizza gamingPizza = bestPizzaBuilder.getPizza()
 
         // Operate:
         String result = gamingPizza.showPizza();

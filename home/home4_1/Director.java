@@ -1,4 +1,7 @@
 package home4_1;
+import java.util.List;
+import java.util.AbstractMap.SimpleEntry;
+
 public class Director {
     private PizzaBuilder builder;
 
@@ -6,12 +9,8 @@ public class Director {
         this.builder = builder;
     }
 
-    public void constructPizza(String first, String second, String third, String fourth,
-                               double firstPrice, double secondPrice, double thirdPrice, double fourthPrice) {
+    public void constructPizza(List<SimpleEntry<String, Double>> ingredients) {
         builder.createNewPizzaProduct();
-        builder.setFirst(first, firstPrice);
-        builder.setSecond(second, secondPrice);
-        builder.setThird(third, thirdPrice);
-        builder.setFourth(fourth, fourthPrice);
+        builder.setIngredients(ingredients);
     }
 }
