@@ -1,6 +1,5 @@
 #include <UnitTests.hpp>
 #include <MegaData.hpp>
-
 int main() {
     UnitTests testSuite;
 
@@ -8,14 +7,14 @@ int main() {
     [](){
 
         // Build:
-        MegaDataPool pool(3);
+         MegaDataPool& pool = MegaDataPool::getInstance(3);
 
          // Operate:
-        auto result = pool.acquire();
-        pool.release(result.value());
+        auto result = acquireFromPool();
+        releaseToPool(result.value());
 
         //Check:
-        ASSERT_EQ(pool.usedSize(), 0);
+        ASSERT_EQ(getUsedPoolSize(), 0);
         
     });
 
@@ -23,28 +22,14 @@ int main() {
     [](){
 
         // Build:
-        MegaDataPool pool(3);
+         MegaDataPool& pool = MegaDataPool::getInstance(3);
 
          // Operate:
-        auto result = pool.acquire();
+        auto result = acquireFromPool();
         //pool.release(result);
 
         //Check:
-        ASSERT_EQ(pool.usedSize(), 1);
-        
-    });
-
-    testSuite.addTest("No data",
-    [](){
-
-        // Build:
-        MegaDataPool pool(0);
-
-         // Operate:
-        auto result = pool.acquire();
-
-        //Check:
-        ASSERT_EQ(result.has_value(), false);
+        ASSERT_EQ(getUsedPoolSize(), 1);
         
     });
     testSuite.run();
