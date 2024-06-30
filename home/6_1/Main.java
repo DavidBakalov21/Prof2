@@ -63,6 +63,7 @@ class MessageDispatcher {
     private final List<Subscription<GreenMessage>> greenSubscribers = new ArrayList<>();
     private final List<Subscription<BlueMessage>> blueSubscribers = new ArrayList<>();
     private final List<Subscription<OrangeMessage>> orangeSubscribers = new ArrayList<>();
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     UUID subscribeGreen(Consumer<GreenMessage> subscriber) {
         lock.lock();
@@ -128,7 +129,7 @@ class MessageDispatcher {
         lock.lock();
         try {
             for (Subscription<GreenMessage> sub : greenSubscribers) {
-                sub.getSubscriber().accept(message);
+                executorService.submit(() -> sub.getSubscriber().accept(message));
             }
         } finally {
             lock.unlock();
@@ -139,7 +140,7 @@ class MessageDispatcher {
         lock.lock();
         try {
             for (Subscription<BlueMessage> sub : blueSubscribers) {
-                sub.getSubscriber().accept(message);
+                executorService.submit(() -> sub.getSubscriber().accept(message));
             }
         } finally {
             lock.unlock();
@@ -150,7 +151,7 @@ class MessageDispatcher {
         lock.lock();
         try {
             for (Subscription<OrangeMessage> sub : orangeSubscribers) {
-                sub.getSubscriber().accept(message);
+                executorService.submit(() -> sub.getSubscriber().accept(message));
             }
         } finally {
             lock.unlock();

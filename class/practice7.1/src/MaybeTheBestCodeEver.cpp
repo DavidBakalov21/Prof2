@@ -13,13 +13,21 @@ int main() {
         collection.addRectangle(Rect(width, height));
     }
 
-    collection.printFitInformation();
+    for (int i = 0; i < collection.getRectNum(); i++) {
+        for (int j = 0; j < collection.getRectNum(); j++) {
+            if (i != j && collection.getCollection()[i].fitsInside(collection.getCollection()[j])) {
+                std::println("Rectangle {} can be placed inside Rectangle {}", i + 1, j + 1);
+            }
+        }
+    }
 
-    std::println("The biggest area: {}",collection.getBiggestAreaRectangle().getArea());
+    std::println("The biggest area: {}",collection.getBiggestAreaRectangle()->getArea());
     std::println("Number of recangles: {}",collection.getRectNum());
-    std::println("The smallest area: {}",collection.getSmallestAreaRectangle().getArea());
+    std::println("The smallest area: {}",collection.getSmallestAreaRectangle()->getArea());
 
-    collection.biggestSidePrint();
+    for (int i = 0; i < 5; i++) {
+        std::println("The biggest side of rectangle {} : {}", i + 1,collection.getCollection()[i].getBiggestSide());
+    }
 
     std::println("Total area of rectangles: {}",collection.getTotalArea());
 

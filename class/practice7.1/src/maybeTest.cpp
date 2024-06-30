@@ -25,7 +25,7 @@ int main() {
         RectCollection collection;
         collection.addRectangle(Rect(5.0, 4.0));
         collection.addRectangle(Rect(5.0, 6.0));
-        ASSERT_EQ(collection.getSmallestAreaRectangle().getArea(), 20.0)
+        ASSERT_EQ(collection.getSmallestAreaRectangle()->getArea(), 20.0)
     });
     testSuite.run();
 }

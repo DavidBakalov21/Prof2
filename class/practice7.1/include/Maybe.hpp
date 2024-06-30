@@ -33,16 +33,22 @@ public:
         rectangles.push_back(rectangle);
     }
 
-    const Rect& getBiggestAreaRectangle() const {
-        return *std::max_element(rectangles.begin(), rectangles.end(), [](const Rect& a, const Rect& b) {
+    const Rect* getBiggestAreaRectangle() const {
+        if (rectangles.empty()) {
+            return nullptr;
+        }
+        return &(*std::max_element(rectangles.begin(), rectangles.end(), [](const Rect& a, const Rect& b) {
             return a.getArea() < b.getArea();
-        });
+        }));
     }
 
-    const Rect& getSmallestAreaRectangle() const {
-        return *std::min_element(rectangles.begin(), rectangles.end(), [](const Rect& a, const Rect& b) {
+    const Rect* getSmallestAreaRectangle() const {
+        if (rectangles.empty()) {
+            return nullptr;
+        }
+        return &(*std::min_element(rectangles.begin(), rectangles.end(), [](const Rect& a, const Rect& b) {
             return a.getArea() < b.getArea();
-        });
+        }));
     }
 
     double getTotalArea() const {
@@ -53,23 +59,12 @@ public:
         return totalArea;
     }
 
-    void printFitInformation() const {
-        for (int i = 0; i < rectangles.size(); i++) {
-            for (int j = 0; j < rectangles.size(); j++) {
-                if (i != j && rectangles[i].fitsInside(rectangles[j])) {
-                    std::println("Rectangle {} can be placed inside Rectangle {}", i + 1, j + 1);
-                }
-            }
-        }
-    }
-    void biggestSidePrint(){
-        for (int i = 0; i < 5; i++) {
-            std::println("The biggest side of rectangle {} : {}", i + 1,rectangles[i].getBiggestSide());
-        }
-    }
-
     int getRectNum(){
         return rectangles.size();
+    }
+
+    std::vector<Rect> getCollection(){
+        return rectangles;
     }
 
 private:
