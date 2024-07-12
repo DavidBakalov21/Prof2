@@ -3,9 +3,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 public class Menu{
-    private ArrayList<Product> menu;
-
+    //private ArrayList<Product> menu;
+    private Database db;
+        public Menu(Database db) {
+        this.db = db;
+    }
      public void viewMenu() {
+        System.out.println("fgdsd");
+        ArrayList<Product> menu = db.readProductsFromFile("products.txt");
         if (menu.isEmpty()) {
             System.out.println("The menu is empty.");
         } else {
@@ -16,6 +21,7 @@ public class Menu{
         }
     }
     public void viewMenuPriceSorted() {
+        ArrayList<Product> menu = db.readProductsFromFile("products.txt");
         if (menu.isEmpty()) {
             System.out.println("The menu is empty.");
         } else {

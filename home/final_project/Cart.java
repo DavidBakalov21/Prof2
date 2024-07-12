@@ -6,7 +6,7 @@ public class Cart{
  private ArrayList<Product> cart;
 
     public Cart() {
-        this.cart = new ArrayList<>();
+        this.cart = new ArrayList<Product>();
     }
 
     // Method to clear the cart
