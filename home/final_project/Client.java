@@ -9,14 +9,14 @@ public class Client{
     private PaymentMethod payment;
     private int bonuses;
 
-    public Client(String name, String password, String eamil, boolean  isAdmin){
+    public Client(String name, String password, String eamil, boolean  isAdmin, Cart cart, PaymentMethod payment, int bonuses){
         this.name=name;
         this.password=password;
         this.email=eamil;
         this.isAdmin=isAdmin;
-        this.cart=new Cart();
-        this.payment=new PaymentMethod("human souls");
-        this.bonuses=0;
+        this.cart=cart;
+        this.payment=payment;
+        this.bonuses=bonuses;
     }
 
     public void editName(String newName){
@@ -36,5 +36,9 @@ public class Client{
 
     public void addBonuses(int amount){
         bonuses+=amount;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 }

@@ -8,6 +8,23 @@ public class Cart{
     public Cart() {
         this.cart = new ArrayList<Product>();
     }
+     public Cart(String cartString) {
+        this.cart = new ArrayList<Product>();
+        if (cartString != null && !cartString.isEmpty()) {
+            String[] items = cartString.split(",");
+            for (String item : items) {
+                String[] details = item.split("-");
+                if (details.length == 2) {
+                    try {
+                        cart.add(new Product(details[0], Double.parseDouble(details[1])));
+                    } catch (NumberFormatException e) {
+                        // Handle parse error
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
     // Method to clear the cart
     public void clearCart() {
@@ -44,5 +61,14 @@ public class Cart{
                 System.out.println(product.getName() + " - $" + product.getPrice());
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Product product : cart) {
+            sb.append(product.toString()).append(",");
+        }
+        return sb.toString();
     }
 }
