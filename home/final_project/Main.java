@@ -12,5 +12,7 @@ public class Main {
 
         Client me = Database.logIn("password123", "john@example.com");
         me.getCart().viewCart();
+
+        
     }
 }

@@ -46,7 +46,7 @@ public class Database {
                 }
             }
         }
-        return null; // or throw an exception if you prefer
+        return null;
     }
 
 }

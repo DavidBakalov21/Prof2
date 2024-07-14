@@ -18,7 +18,6 @@ public class Cart{
                     try {
                         cart.add(new Product(details[0], Double.parseDouble(details[1])));
                     } catch (NumberFormatException e) {
-                        // Handle parse error
                         e.printStackTrace();
                     }
                 }
@@ -26,7 +25,6 @@ public class Cart{
         }
     }
 
-    // Method to clear the cart
     public void clearCart() {
         cart.clear();
         System.out.println("Cart has been cleared.");
