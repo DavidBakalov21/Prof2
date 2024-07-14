@@ -19,6 +19,10 @@ public class Client{
         this.bonuses=bonuses;
     }
 
+    public String getEmail(){
+        return email;
+    }
+
     public void editName(String newName){
         name=newName;
     }
@@ -40,5 +44,10 @@ public class Client{
 
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+    public String generateString(){
+         return String.format("%s,%s,%s,%b,%s,%d;%s",
+                name, password, email, isAdmin, payment.getMethod(), bonuses, cart.toString());
+
     }
 }

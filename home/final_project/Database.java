@@ -1,8 +1,9 @@
 package final_project;
-
+import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class Database {
@@ -47,6 +48,39 @@ public class Database {
             }
         }
         return null;
+    }
+
+public boolean save(Client client) {
+        ArrayList<String> fileContent = new ArrayList<>();
+        boolean found = false;
+        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] userDetails = line.split(",");
+                if (userDetails.length > 2 && userDetails[2].equals(client.getEmail())) {
+                    fileContent.add(client.generateString());
+                    found = true;
+                } else {
+                    fileContent.add(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        if (!found) {
+            fileContent.add(client.generateString());
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt"))) {
+            for (String record : fileContent) {
+                writer.write(record);
+                writer.newLine();
+            }
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

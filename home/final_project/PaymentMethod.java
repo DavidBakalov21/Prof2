@@ -16,4 +16,7 @@ public class PaymentMethod{
         System.out.println("Master Card");
         System.out.println("Human souls");
     }
+    public String getMethod(){
+        return methodName;
+    }
 }

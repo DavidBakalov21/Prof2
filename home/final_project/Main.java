@@ -13,6 +13,7 @@ public class Main {
         Client me = Database.logIn("password123", "john@example.com");
         me.getCart().viewCart();
 
-        
+        me.getCart().addToCart(new Product("baNana", 5.0));
+        db.save(me);
     }
 }
