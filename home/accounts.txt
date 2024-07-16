@@ -1,2 +1,5 @@
 JohnDoe,password123,john@example.com,true,CreditCard,100;Pizza-10.0,Apple-6.0,baNana-5.0,
 D,@fgf.com,dfg@gdf.com.com,true,souls,0;
+g,56g,fgh@bn,true,souls,0;;
+gh,fsv,re,false,sd,0;;
+h,j,n,false,g,0;baNana-5.0,

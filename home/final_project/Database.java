@@ -27,6 +27,22 @@ public class Database {
 
         return products;
     }
+    public Product findProduct(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(" - ");
+                if (parts.length == 2) {
+                    String name = parts[0];
+                    double price = Double.parseDouble(parts[1].replace("$", ""));
+                    return new Product(name, price);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Product("",0.0);
+    }
 
     public static Client logIn(String password, String email) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
@@ -65,7 +81,7 @@ public Client register(String name, String password, String email, Boolean isAdm
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt", true))) {
             Client returnClient = new Client(name, password, email, isAdmin, new Cart(), new PaymentMethod(paymentMethod), 0);
-            writer.write(returnClient.generateString()+";");
+            writer.write(returnClient.generateString());
             writer.newLine();
             return returnClient;
         } catch (IOException e) {

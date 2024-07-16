@@ -30,9 +30,14 @@ public class Cart{
         System.out.println("Cart has been cleared.");
     }
 
-    public void addToCart(Product product) {
-        cart.add(product);
-        System.out.println(product.getName() + " has been added to the cart.");
+    public void addToCart(String prodName, Database db) {
+        Cart product=db.findProduct(prodName);
+        if (!product.getName().equals("")){
+            cart.add(product);
+            System.out.println(product.getName() + " has been added to the cart.");
+        }else{
+            System.out.println(product.getName() + " can't be added to cart");
+        }
     }
 
     public void removeFromCart(String prodName) {
