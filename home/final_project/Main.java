@@ -36,31 +36,32 @@ public class Main {
         }
         return returnClient;
     }
-    public static Boolean choiceMake(Scanner scanner, Client me, Database db, String choice, Menu menu ){
+    public static Boolean choiceMake(Scanner scanner, Client me, Database db, String choice, Menu menu, Confirmation conf ){
         switch (choice){
-            case "addToCart":
+            case Constants.ADD_TO_CART:
                 System.out.println("What do you want?");
                 String productAdd = scanner.nextLine();
                 me.getCart().addToCart(productAdd, db);
                 db.save(me);
                 return false;
-            case "clearCart": //OK
+
+            case Constants.CLEAR_CART: //OK
                 me.getCart().clearCart();
                 db.save(me);
                 return false;
                 
-            case "viewCart": //OK
+            case Constants.VIEW_CART: //OK
                 me.getCart().viewCart();
                 return false;
                 
-            case "removeProduct"://OK
+            case Constants.REMOVE_PRODUCT://OK
                 System.out.println("What do you want to remove?");
                 String productRemove = scanner.nextLine();
                 me.getCart().removeFromCart(productRemove);
                 db.save(me);
                 return false;
                 
-            case "editProfile":
+            case Constants.EDIT_PROFILE:
                 System.out.println("Enter new name:");
                 String newName=scanner.nextLine();
                 System.out.println("Enter new password:");
@@ -70,22 +71,25 @@ public class Main {
                 db.save(me);
                 return false;
                 
-            case "viewMenu"://OK
+            case Constants.VIEW_MENU://OK
                 menu.viewMenu();
                 return false;
                 
-            case "viewSortedMenu"://OK
+            case Constants.VIEW_SORTED_MENU://OK
                 menu.viewMenuPriceSorted();
                 return false;
-            case "setPayment":
+
+            case Constants.SET_PAYMENT:
                 System.out.println("Enter new payment method:");
                 String newPayment=scanner.nextLine();
                 me.getPayment().setPaymentMethod(newPayment);
-                
-            case "logout":
-                me=null;
+                db.save(me);
+                return false;
+
+            case Constants.LOGOUT:
                 return true;
-            case "help":
+
+            case Constants.HELP:
                 System.out.println("viewMenu-view menu");
                 System.out.println("viewSortedMenu-view menu sorted by prices");
                 System.out.println("editProfile-edit user's name and password");
@@ -94,8 +98,18 @@ public class Main {
                 System.out.println("clearCart-clear cart");
                 System.out.println("addToCart-add product to cart");
                 System.out.println("logout-logout cart");
+                return false;
+
+            case Constants.CONFIRMATION:
+                System.out.println("Thanks for your order");
+                System.out.println("Your order is:");
+                me.getCart().viewCart();
+                System.out.println("You will pay: "+conf.ConfirmOrder(me));
+                return false;
+                
             default:
                 System.out.println("No such command, use 'help' command");
+                return false;
                 
             return false;
 
@@ -105,7 +119,7 @@ public class Main {
         Database db = new Database();
         Menu menu = new Menu(db);
         Scanner scanner = new Scanner(System.in);
-        
+        Confirmation conf=new Confirmation();
         Client me=null;
         while (me==null){
             me= entrance(scanner,db);
@@ -117,7 +131,7 @@ public class Main {
         while(true){
             System.out.println("What do you want ? ");
             String choice = scanner.nextLine();
-            if(choiceMake(scanner, me, db, choice, menu)==true){
+            if(choiceMake(scanner, me, db, choice, menu, conf)==true){
                 break;
             }
 

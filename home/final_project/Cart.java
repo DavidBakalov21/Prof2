@@ -30,6 +30,10 @@ public class Cart{
         System.out.println("Cart has been cleared.");
     }
 
+    public int getCartSize(){
+        return cart.size();
+    }
+
     public void addToCart(String prodName, Database db) {
         Product product=db.findProduct(prodName);
         if (!product.getName().equals("")){
@@ -38,6 +42,14 @@ public class Cart{
         }else{
             System.out.println(product.getName() + " can't be added to cart");
         }
+    }
+
+    public double getCartPrice(){
+        double price=0;
+        for (Product product : cart){
+            price+=product.getPrice();
+        }
+        return price;
     }
 
     public void removeFromCart(String prodName) {

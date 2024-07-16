@@ -34,9 +34,12 @@ public class Client{
     public void editPassword(String newPassword){
         password=newPassword;
     }
+    public Boolean isUserAdmin(){
+        return isAdmin;
+    }
 
-    public void editEmail(String newEmail){
-        email=newEmail;
+    public int getBonuses(){
+        return bonuses;
     }
 
     public Cart getCart(){
