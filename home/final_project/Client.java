@@ -23,9 +23,14 @@ public class Client{
         return email;
     }
 
+    public PaymentMethod getPayment(){
+        return payment;
+    }
+
     public void editName(String newName){
         name=newName;
     }
+
     public void editPassword(String newPassword){
         password=newPassword;
     }

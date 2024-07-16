@@ -31,7 +31,7 @@ public class Cart{
     }
 
     public void addToCart(String prodName, Database db) {
-        Cart product=db.findProduct(prodName);
+        Product product=db.findProduct(prodName);
         if (!product.getName().equals("")){
             cart.add(product);
             System.out.println(product.getName() + " has been added to the cart.");

@@ -27,12 +27,12 @@ public class Database {
 
         return products;
     }
-    public Product findProduct(String filePath) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+    public Product findProduct(String prodName) {
+        try (BufferedReader br = new BufferedReader(new FileReader("products.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" - ");
-                if (parts.length == 2) {
+                if (parts.length == 2 && parts[0].equals(prodName)) {
                     String name = parts[0];
                     double price = Double.parseDouble(parts[1].replace("$", ""));
                     return new Product(name, price);
