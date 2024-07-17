@@ -27,7 +27,6 @@ public class Cart{
 
     public void clearCart() {
         cart.clear();
-        System.out.println("Cart has been cleared.");
     }
 
     public int getCartSize(){

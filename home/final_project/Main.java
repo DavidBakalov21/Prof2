@@ -1,34 +1,31 @@
 package final_project;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
-    public static Client entrance(Scanner scanner, Database db){
-        System.out.println("Please login or register");
-        String entranceChaoice = scanner.nextLine();
-        Client returnClient=null;
+    private static Scanner scanner = new Scanner(System.in);
+
+    private static String promptUserInput(String message) {
+        System.out.println(message);
+        return scanner.nextLine();
+    }
+    public static Client entrance(Database db){
+        String entranceChaoice = promptUserInput("Please login or register");
+        Client returnClient = null;
         try {
         switch (entranceChaoice) {
-            case "login":
-                System.out.print("Enter email: ");
-                String emailLogin = scanner.nextLine();
-                System.out.print("Enter password: ");
-                String passwordLogin = scanner.nextLine();
-                returnClient=db.logIn(passwordLogin, emailLogin);
+            case Constants.LOGIN:
+                String emailLogin = promptUserInput("Enter email: ");
+                String passwordLogin = promptUserInput("Enter password: ");
+                returnClient = db.logIn(passwordLogin, emailLogin);
                 break;
-            case "register":
-                System.out.print("Enter username: ");
-                String username = scanner.nextLine();
-                System.out.print("Enter password: ");
-                String passwordRegister = scanner.nextLine();
-                System.out.print("Enter email: ");
-                String emailRegister = scanner.nextLine();
-                System.out.println("Are you admin");
-                String isAdmin = scanner.nextLine();
-                System.out.println("Enter your paymentMethod");
-                String paymentMethod = scanner.nextLine();
-                returnClient=db.register(username, passwordRegister, emailRegister, Boolean.parseBoolean(isAdmin),paymentMethod);
+            case Constants.REGISTER:
+                String username = promptUserInput("Enter username: ");
+                String passwordRegister = promptUserInput("Enter password: ");
+                String emailRegister = promptUserInput("Enter email: ");
+                String isAdmin = promptUserInput("Are you admin");
+                String paymentMethod = promptUserInput("Enter your paymentMethod");
+                returnClient = db.register(username, passwordRegister, emailRegister, Boolean.parseBoolean(isAdmin),paymentMethod);
                 break;
         }
         }catch (IOException e) {
@@ -36,11 +33,10 @@ public class Main {
         }
         return returnClient;
     }
-    public static Boolean choiceMake(Scanner scanner, Client me, Database db, String choice, Menu menu, Confirmation conf ){
+    public static Boolean choiceMake( Client me, Database db, String choice, Menu menu, Confirmation conf ){
         switch (choice){
             case Constants.ADD_TO_CART:
-                System.out.println("What do you want?");
-                String productAdd = scanner.nextLine();
+                String productAdd = promptUserInput("What do you want to add?");
                 me.getCart().addToCart(productAdd, db);
                 db.save(me);
                 return false;
@@ -48,6 +44,7 @@ public class Main {
             case Constants.CLEAR_CART: //OK
                 me.getCart().clearCart();
                 db.save(me);
+                System.out.println("Cart has been cleared.");
                 return false;
                 
             case Constants.VIEW_CART: //OK
@@ -55,17 +52,14 @@ public class Main {
                 return false;
                 
             case Constants.REMOVE_PRODUCT://OK
-                System.out.println("What do you want to remove?");
-                String productRemove = scanner.nextLine();
+                String productRemove = promptUserInput("What do you want to remove?");
                 me.getCart().removeFromCart(productRemove);
                 db.save(me);
                 return false;
                 
             case Constants.EDIT_PROFILE:
-                System.out.println("Enter new name:");
-                String newName=scanner.nextLine();
-                System.out.println("Enter new password:");
-                String newPassword=scanner.nextLine();
+                String newName = promptUserInput("Enter new name:");
+                String newPassword = promptUserInput("Enter new password:");
                 me.editName(newName);
                 me.editPassword(newPassword);
                 db.save(me);
@@ -80,8 +74,7 @@ public class Main {
                 return false;
 
             case Constants.SET_PAYMENT:
-                System.out.println("Enter new payment method:");
-                String newPayment=scanner.nextLine();
+                String newPayment = promptUserInput("Enter new payment method:");
                 me.getPayment().setPaymentMethod(newPayment);
                 db.save(me);
                 return false;
@@ -98,43 +91,40 @@ public class Main {
                 System.out.println("clearCart-clear cart");
                 System.out.println("addToCart-add product to cart");
                 System.out.println("logout-logout cart");
+                System.out.println("confirm-confirm order");
                 return false;
 
             case Constants.CONFIRMATION:
                 System.out.println("Thanks for your order");
-                System.out.println("Your order is:");
+                System.out.println(me.getName()+", Your order is:");
                 me.getCart().viewCart();
                 System.out.println("You will pay: "+conf.ConfirmOrder(me));
                 return false;
-                
+
             default:
                 System.out.println("No such command, use 'help' command");
                 return false;
-                
-            return false;
-
         }
     }
+    
     public static void main(String[] args) {
         Database db = new Database();
         Menu menu = new Menu(db);
-        Scanner scanner = new Scanner(System.in);
         Confirmation conf=new Confirmation();
-        Client me=null;
-        while (me==null){
-            me= entrance(scanner,db);
+        Client me = null;
+        while (me == null){
+            me = entrance(db);
         }
 
         System.out.println("Here is the menu");
         menu.viewMenu();
 
         while(true){
-            System.out.println("What do you want ? ");
-            String choice = scanner.nextLine();
-            if(choiceMake(scanner, me, db, choice, menu, conf)==true){
+            String choice = promptUserInput("What do you want ?");
+            if(choiceMake(me, db, choice, menu, conf)==true){
                 break;
             }
-
         }
+        System.out.println("Bye");
     }
 }

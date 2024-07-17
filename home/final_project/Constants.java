@@ -14,6 +14,6 @@ class Constants {
     public static final String HELP = "help";
     public static final String LOGOUT = "logout";
     public static final String CONFIRMATION = "confirm";
-
-    
+    public static final String LOGIN = "login";
+    public static final String REGISTER = "register"; 
 }

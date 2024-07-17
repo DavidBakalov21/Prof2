@@ -50,9 +50,10 @@ public class Client{
         bonuses+=amount;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public String getName() {
+        return name;
     }
+    
     public String generateString(){
          return String.format("%s,%s,%s,%b,%s,%d;%s",
                 name, password, email, isAdmin, payment.getMethod(), bonuses, cart.toString());
