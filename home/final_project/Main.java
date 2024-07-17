@@ -25,7 +25,11 @@ public class Main {
                 String emailRegister = promptUserInput("Enter email: ");
                 String isAdmin = promptUserInput("Are you admin");
                 String paymentMethod = promptUserInput("Enter your paymentMethod");
-                returnClient = db.register(username, passwordRegister, emailRegister, Boolean.parseBoolean(isAdmin),paymentMethod);
+                if (!username.equals("") && !passwordRegister.equals("") && !emailRegister.equals("") && (isAdmin.equals("true") || isAdmin.equals("false"))){
+                    returnClient = db.register(username, passwordRegister, emailRegister, Boolean.parseBoolean(isAdmin),paymentMethod);  
+                }else{
+                    System.out.println("impossible to register");
+                }
                 break;
         }
         }catch (IOException e) {
@@ -33,12 +37,18 @@ public class Main {
         }
         return returnClient;
     }
+    
     public static Boolean choiceMake( Client me, Database db, String choice, Menu menu, Confirmation conf ){
         switch (choice){
             case Constants.ADD_TO_CART:
                 String productAdd = promptUserInput("What do you want to add?");
-                me.getCart().addToCart(productAdd, db);
-                db.save(me);
+                boolean addResult = me.getCart().addToCart(productAdd, db);
+                if (addResult){
+                    db.save(me);
+                    System.out.println(productAdd + " has been added to the cart.");
+                }else{
+                    System.out.println(productAdd + " can't be added to cart");
+                }
                 return false;
 
             case Constants.CLEAR_CART: //OK
@@ -53,16 +63,26 @@ public class Main {
                 
             case Constants.REMOVE_PRODUCT://OK
                 String productRemove = promptUserInput("What do you want to remove?");
-                me.getCart().removeFromCart(productRemove);
-                db.save(me);
+                boolean deleteResult = me.getCart().removeFromCart(productRemove);
+                if (deleteResult){
+                    db.save(me);
+                    System.out.println(productRemove + " has been removed from the cart.");
+                }else{
+                    System.out.println("Product not found. No product removed.");
+                }
                 return false;
                 
             case Constants.EDIT_PROFILE:
                 String newName = promptUserInput("Enter new name:");
                 String newPassword = promptUserInput("Enter new password:");
-                me.editName(newName);
-                me.editPassword(newPassword);
-                db.save(me);
+                boolean successName = me.editName(newName);
+                boolean successPassword = me.editPassword(newPassword);
+                if (successName && successPassword){
+                    db.save(me);
+                    System.out.println("Success");
+                }else{
+                    System.out.println("Something went wrong");
+                }
                 return false;
                 
             case Constants.VIEW_MENU://OK
@@ -75,8 +95,14 @@ public class Main {
 
             case Constants.SET_PAYMENT:
                 String newPayment = promptUserInput("Enter new payment method:");
-                me.getPayment().setPaymentMethod(newPayment);
-                db.save(me);
+                boolean result = me.getPayment().setPaymentMethod(newPayment);
+                if (result){
+                    db.save(me);
+                    System.out.println("Success");
+                }else{
+                    System.out.println("Something went wrong");
+                }
+                
                 return false;
 
             case Constants.LOGOUT:
@@ -121,7 +147,7 @@ public class Main {
 
         while(true){
             String choice = promptUserInput("What do you want ?");
-            if(choiceMake(me, db, choice, menu, conf)==true){
+            if(choiceMake(me, db, choice, menu, conf)){
                 break;
             }
         }

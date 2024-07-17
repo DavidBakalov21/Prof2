@@ -28,7 +28,7 @@ public class Database {
         return products;
     }
     public Product findProduct(String prodName) {
-        try (BufferedReader br = new BufferedReader(new FileReader("products.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Constants.PRODUCTS))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split(" - ");
@@ -45,7 +45,7 @@ public class Database {
     }
 
     public static Client logIn(String password, String email) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Constants.ACCOUNTS))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(";");
@@ -67,7 +67,7 @@ public class Database {
     }
 
 public Client register(String name, String password, String email, Boolean isAdmin, String paymentMethod) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Constants.ACCOUNTS))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(",");
@@ -75,25 +75,25 @@ public Client register(String name, String password, String email, Boolean isAdm
                 String storedPassword = userDetails[1];
                 String storedEmail = userDetails[2];
                 if (storedPassword.equals(password) && storedEmail.equals(email)) {
-                   return new Client("","","",false, new Cart(), new PaymentMethod(""),0);
+                   return null;
                 }
             }
         }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constants.ACCOUNTS, true))) {
             Client returnClient = new Client(name, password, email, isAdmin, new Cart(), new PaymentMethod(paymentMethod), 0);
             writer.write(returnClient.generateString());
             writer.newLine();
             return returnClient;
         } catch (IOException e) {
             e.printStackTrace();
-            return new Client("","","",false, new Cart(), new PaymentMethod(""),0);
+            return null;
         }
     }
 
     public boolean save(Client client) {
         ArrayList<String> fileContent = new ArrayList<>();
         boolean found = false;
-        try (BufferedReader reader = new BufferedReader(new FileReader("accounts.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Constants.ACCOUNTS))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(",");
@@ -111,7 +111,7 @@ public Client register(String name, String password, String email, Boolean isAdm
         if (!found) {
             fileContent.add(client.generateString());
         }
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("accounts.txt"))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Constants.ACCOUNTS))) {
             for (String record : fileContent) {
                 writer.write(record);
                 writer.newLine();

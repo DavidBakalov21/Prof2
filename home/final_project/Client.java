@@ -4,15 +4,15 @@ public class Client{
     private String name;
     private String password;
     private String email;
-    private boolean  isAdmin;
+    private boolean isAdmin;
     private Cart cart;
     private PaymentMethod payment;
     private int bonuses;
 
-    public Client(String name, String password, String eamil, boolean  isAdmin, Cart cart, PaymentMethod payment, int bonuses){
+    public Client(String name, String password, String email, boolean  isAdmin, Cart cart, PaymentMethod payment, int bonuses){
         this.name=name;
         this.password=password;
-        this.email=eamil;
+        this.email=email;
         this.isAdmin=isAdmin;
         this.cart=cart;
         this.payment=payment;
@@ -27,13 +27,22 @@ public class Client{
         return payment;
     }
 
-    public void editName(String newName){
-        name=newName;
+    public Boolean editName(String newName){
+        if (!newName.equals("")){
+            name=newName;
+            return true;
+        }
+        return false;
     }
 
-    public void editPassword(String newPassword){
-        password=newPassword;
+    public Boolean editPassword(String newPassword){
+        if (!newPassword.equals("")){
+            password=newPassword;
+            return true;
+        }
+        return false;
     }
+    
     public Boolean isUserAdmin(){
         return isAdmin;
     }
@@ -52,6 +61,10 @@ public class Client{
 
     public String getName() {
         return name;
+    }
+ 
+    public String getPassword(){
+        return password;
     }
     
     public String generateString(){

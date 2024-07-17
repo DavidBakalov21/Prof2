@@ -33,14 +33,14 @@ public class Cart{
         return cart.size();
     }
 
-    public void addToCart(String prodName, Database db) {
+    public Boolean addToCart(String prodName, Database db) {
         Product product=db.findProduct(prodName);
+        boolean result=false;
         if (!product.getName().equals("")){
             cart.add(product);
-            System.out.println(product.getName() + " has been added to the cart.");
-        }else{
-            System.out.println(product.getName() + " can't be added to cart");
+            result=true;
         }
+        return result;
     }
 
     public double getCartPrice(){
@@ -51,19 +51,16 @@ public class Cart{
         return price;
     }
 
-    public void removeFromCart(String prodName) {
+    public Boolean removeFromCart(String prodName) {
         boolean removed = false;
         for (Product product : cart) {
             if (product.getName().equalsIgnoreCase(prodName)) {
                 cart.remove(product);
-                System.out.println(product.getName() + " has been removed from the cart.");
                 removed = true;
                 break;
             }
         }
-        if (!removed) {
-            System.out.println("Product not found. No product removed.");
-        }
+        return removed;
     }
 
     public void viewCart() {
