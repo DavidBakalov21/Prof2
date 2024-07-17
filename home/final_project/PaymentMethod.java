@@ -14,11 +14,11 @@ public class PaymentMethod{
 
     public Boolean setPaymentMethod(String newMethod){
         if (Arrays.asList(Constants.AvailabeMethods).contains(newMethod)){
-            this.methodName=methodName;
+            this.methodName=newMethod;
             return true;
-        }else{
-            return false;
         }
+        
+        return false;
     }
     public void viewAvailableMethods(){
         System.out.println("Availabe methods:");

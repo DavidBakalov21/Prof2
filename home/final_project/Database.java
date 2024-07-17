@@ -72,9 +72,8 @@ public Client register(String name, String password, String email, Boolean isAdm
             while ((line = reader.readLine()) != null) {
                 String[] userDetails = line.split(",");
                 if (userDetails.length < 6) continue;
-                String storedPassword = userDetails[1];
                 String storedEmail = userDetails[2];
-                if (storedPassword.equals(password) && storedEmail.equals(email)) {
+                if (storedEmail.equals(email)) {
                    return null;
                 }
             }

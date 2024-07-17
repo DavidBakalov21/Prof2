@@ -1,6 +1,3 @@
-JohnDoe,password123,john@example.com,true,CreditCard,100;Apple-6.0,
-D,@fgf.com,dfg@gdf.com.com,true,souls,0;
-g,56g,fgh@bn,true,souls,0;;
-gh,fsv,re,false,sd,0;;
-h,j,n,false,g,0;baNana-5.0,
-h,jkjh,4354r@gmail.com,false,ds,0;
+dsv,fgggggggg,jowvs@d.com,true,Visa,112;
+fg,bd,gfbgb@dfb.com,false,Visa,0;
+аввм,вмм,fv@fdf.com,false,Visa,0;

@@ -23,7 +23,7 @@ public class Main {
                 String username = promptUserInput("Enter username: ");
                 String passwordRegister = promptUserInput("Enter password: ");
                 String emailRegister = promptUserInput("Enter email: ");
-                String isAdmin = promptUserInput("Are you admin");
+                String isAdmin = promptUserInput("Are you admin(true/false): ");
                 String paymentMethod = promptUserInput("Enter your paymentMethod");
                 if (!username.equals("") && !passwordRegister.equals("") && !emailRegister.equals("") && (isAdmin.equals("true") || isAdmin.equals("false"))){
                     returnClient = db.register(username, passwordRegister, emailRegister, Boolean.parseBoolean(isAdmin),paymentMethod);  
@@ -40,7 +40,7 @@ public class Main {
     
     public static Boolean choiceMake( Client me, Database db, String choice, Menu menu, Confirmation conf ){
         switch (choice){
-            case Constants.ADD_TO_CART:
+            case Constants.ADD_TO_CART: //OK
                 String productAdd = promptUserInput("What do you want to add?");
                 boolean addResult = me.getCart().addToCart(productAdd, db);
                 if (addResult){
@@ -61,7 +61,7 @@ public class Main {
                 me.getCart().viewCart();
                 return false;
                 
-            case Constants.REMOVE_PRODUCT://OK
+            case Constants.REMOVE_PRODUCT: //OK
                 String productRemove = promptUserInput("What do you want to remove?");
                 boolean deleteResult = me.getCart().removeFromCart(productRemove);
                 if (deleteResult){
@@ -72,7 +72,7 @@ public class Main {
                 }
                 return false;
                 
-            case Constants.EDIT_PROFILE:
+            case Constants.EDIT_PROFILE: //OK
                 String newName = promptUserInput("Enter new name:");
                 String newPassword = promptUserInput("Enter new password:");
                 boolean successName = me.editName(newName);
@@ -93,7 +93,7 @@ public class Main {
                 menu.viewMenuPriceSorted();
                 return false;
 
-            case Constants.SET_PAYMENT:
+            case Constants.SET_PAYMENT://OK
                 String newPayment = promptUserInput("Enter new payment method:");
                 boolean result = me.getPayment().setPaymentMethod(newPayment);
                 if (result){
@@ -105,10 +105,10 @@ public class Main {
                 
                 return false;
 
-            case Constants.LOGOUT:
+            case Constants.LOGOUT://OK
                 return true;
 
-            case Constants.HELP:
+            case Constants.HELP://OK
                 System.out.println("viewMenu-view menu");
                 System.out.println("viewSortedMenu-view menu sorted by prices");
                 System.out.println("editProfile-edit user's name and password");
@@ -120,11 +120,12 @@ public class Main {
                 System.out.println("confirm-confirm order");
                 return false;
 
-            case Constants.CONFIRMATION:
+            case Constants.CONFIRMATION://OK
                 System.out.println("Thanks for your order");
                 System.out.println(me.getName()+", Your order is:");
                 me.getCart().viewCart();
-                System.out.println("You will pay: "+conf.ConfirmOrder(me));
+                System.out.println("You will pay: "+conf.ConfirmOrder(me)+"$");
+                db.save(me);
                 return false;
 
             default:
