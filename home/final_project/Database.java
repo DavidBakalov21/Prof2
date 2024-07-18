@@ -44,7 +44,7 @@ public class Database {
         return new Product("",0.0);
     }
 
-    public static Client logIn(String password, String email) throws IOException {
+    public Client logIn(String password, String email) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(Constants.ACCOUNTS))) {
             String line;
             while ((line = reader.readLine()) != null) {
