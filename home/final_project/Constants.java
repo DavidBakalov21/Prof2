@@ -15,8 +15,8 @@ class Constants {
     public static final String LOGOUT = "logout";
     public static final String CONFIRMATION = "confirm";
     public static final String LOGIN = "login";
-    public static final String REGISTER = "register"; 
-    public static final String[] AvailabeMethods = {"Visa", "Master Card", "Human souls"};
+    public static final String REGISTER = "register";
+    public static final String[] AvailabeMethods = { "Visa", "Master Card", "Human souls" };
     public static final String ACCOUNTS = "accounts.txt";
     public static final String PRODUCTS = "products.txt";
 }
