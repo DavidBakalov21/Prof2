@@ -1,0 +1,85 @@
+package final_project;
+
+import java.util.ArrayList;
+
+public class Cart{
+ private ArrayList<Product> cart;
+
+    public Cart() {
+        this.cart = new ArrayList<Product>();
+    }
+     public Cart(String cartString) {
+        this.cart = new ArrayList<Product>();
+        if (cartString != null && !cartString.isEmpty()) {
+            String[] items = cartString.split(",");
+            for (String item : items) {
+                String[] details = item.split("-");
+                if (details.length == 2) {
+                    try {
+                        cart.add(new Product(details[0], Double.parseDouble(details[1])));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void clearCart() {
+        cart.clear();
+    }
+
+    public int getCartSize(){
+        return cart.size();
+    }
+
+    public Boolean addToCart(String prodName, Database db) {
+        Product product=db.findProduct(prodName);
+        boolean result=false;
+        if (!product.getName().equals("")){
+            cart.add(product);
+            result=true;
+        }
+        return result;
+    }
+
+    public double getCartPrice(){
+        double price=0;
+        for (Product product : cart){
+            price+=product.getPrice();
+        }
+        return price;
+    }
+
+    public Boolean removeFromCart(String prodName) {
+        boolean removed = false;
+        for (Product product : cart) {
+            if (product.getName().equalsIgnoreCase(prodName)) {
+                cart.remove(product);
+                removed = true;
+                break;
+            }
+        }
+        return removed;
+    }
+
+    public void viewCart() {
+        if (cart.isEmpty()) {
+            System.out.println("The cart is empty.");
+        } else {
+            System.out.println("Cart contains:");
+            for (Product product : cart) {
+                System.out.println(product.getName() + " - $" + product.getPrice());
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Product product : cart) {
+            sb.append(product.toString()).append(",");
+        }
+        return sb.toString();
+    }
+}

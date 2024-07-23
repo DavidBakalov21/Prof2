@@ -1,0 +1,3 @@
+dsv,fgggggggg,jowvs@d.com,true,Visa,116;
+fg,bd,gfbgb@dfb.com,false,Visa,0;
+аввм,вмм,fv@fdf.com,false,Visa,0;
